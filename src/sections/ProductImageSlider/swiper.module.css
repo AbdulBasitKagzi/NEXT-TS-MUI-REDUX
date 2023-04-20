@@ -1,0 +1,22 @@
+.selectedImage {
+  /* width: 128px !important; */
+  display: flex;
+  align-content: center;
+  position: relative;
+  justify-content: center;
+}
+
+.selectedImage img {
+  width: 68px !important;
+  height: 108px;
+}
+
+.position {
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .selectedImage {
+    width: 96px !important;
+  }
+}

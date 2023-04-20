@@ -1,0 +1,100 @@
+/* .swiper {
+  width: 100%;
+  height: 100%;
+} */
+
+.swiper-slide {
+  /* text-align: center;
+  font-size: 18px;
+  background: #fff; */
+
+  /* Center slide text vertically */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+
+/* .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* .swiper {
+  width: 100%;
+  height: 300px;
+  margin: 20px auto;
+} */
+
+.swiper-button-next::after {
+  position: absolute;
+  right: 0px !important;
+}
+
+.swiper-button-prev::after {
+  position: absolute;
+  left: 0px !important;
+}
+
+@media (max-width: 1024px) {
+  /* .swiper-button-next::after {
+    position: absolute;
+    right: 26px;
+    color: "#FFFFFF" !important;
+  } */
+
+  .swiper-button-next {
+    /* top: var(--swiper-navigation-top-offset, 20%); */
+    /* background-color: "#FFFFFF"; */
+  }
+  /* .swiper-button-prev::after {
+      position: absolute;
+      left: 25px;
+    } */
+  .swiper-button-prev {
+    /* top: var(--swiper-navigation-top-offset, 20%); */
+  }
+}
+
+@media (max-width: 900px) {
+  /* .swiper-button-next::after {
+    position: absolute;
+    right: 26px;
+    color: "#FFFFFF" !important;
+  } */
+
+  .swiper-button-next {
+    /* top: var(--swiper-navigation-top-offset, 20%) !important; */
+    /* background-color: "#FFFFFF"; */
+  }
+  /* .swiper-button-prev::after {
+      position: absolute;
+      left: 25px;
+    } */
+  .swiper-button-prev {
+    /* top: var(--swiper-navigation-top-offset, 20%) !important; */
+  }
+}
+
+@media (max-width: 600px) {
+  /* .swiper-button-next::after {
+    position: absolute;
+    right: 26px;
+    color: "#FFFFFF" !important;
+  } */
+
+  .swiper-button-next {
+    top: var(--swiper-navigation-top-offset, 20%) !important;
+    display: none;
+    /* background-color: "#FFFFFF"; */
+  }
+  /* .swiper-button-prev::after {
+    position: absolute;
+    left: 25px;
+  } */
+  .swiper-button-prev {
+    top: var(--swiper-navigation-top-offset, 20%) !important;
+    display: none;
+  }
+}

@@ -1,0 +1,18 @@
+.reviwer_image {
+  width: 89px;
+  height: 89px;
+}
+
+@media (max-width: 900px) {
+  .reviwer_image {
+    width: 30px;
+    height: 55px;
+  }
+}
+
+@media (max-width: 600px) {
+  .reviwer_image {
+    width: 60px;
+    height: 60px;
+  }
+}
