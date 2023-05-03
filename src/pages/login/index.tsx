@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AuthGuard from "@/gaurd/AuthGuard";
-import { userActions } from "../../store/user/user.slice";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
+import { RootState } from "@/store/store";
+import { login } from "@/store/user/user.thunk";
+import { AppDispatch } from "@/store/store";
+import { AnyAction, AsyncThunkAction } from "@reduxjs/toolkit";
+// import GuestGuard from '../../routes/GuestGuard';
+import GuestGuard from "../../gaurd/GuestGuard";
+import DescriptionAlerts from "@/components/Alert";
 // mui imports
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,9 +22,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { RootState } from "@/store/store";
-// import GuestGuard from '../../routes/GuestGuard';
+import { createTheme } from "@mui/material/styles";
 
 function Copyright(props: any) {
   return (
@@ -47,10 +51,11 @@ export default function SignIn() {
     password: string;
   }>();
   let empty: boolean | undefined = undefined;
-  const [alert, setAlert] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-  const { User } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<any>();
+  const { User, error, message } = useSelector(
+    (state: RootState) => state.user
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -75,15 +80,26 @@ export default function SignIn() {
   });
 
   useEffect(() => {
-    if (userCredentials) dispatch(userActions.login({ userCredentials }));
-  }, [userCredentials]);
+    if (userCredentials) dispatch(login(userCredentials));
+  }, [userCredentials, dispatch]);
 
-  useEffect(() => {
-    if (userCredentials) router.push("/");
-  }, [User]);
+  // useEffect(() => {
+  //   if (userCredentials) router.push("/");
+  // }, [User]);
 
   return (
-    <AuthGuard>
+    <GuestGuard>
+      {error && (
+        <DescriptionAlerts
+          type="error"
+          title="Error"
+          message={message}
+          openUp={error}
+          // setOpenUp={setOpenUp}
+          closeDuration={2000}
+          backgroundColor="#cc0000"
+        />
+      )}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -185,6 +201,6 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </AuthGuard>
+    </GuestGuard>
   );
 }

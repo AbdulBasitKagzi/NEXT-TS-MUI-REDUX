@@ -3,6 +3,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Snackbar from "@mui/material/Snackbar";
 import { useEffect } from "react";
 import { notification } from "../../store/cart/cart.slice";
+import { setErrorState } from "@/store/user/user.slice";
 import { useDispatch } from "react-redux";
 
 interface alertProps {
@@ -11,7 +12,7 @@ interface alertProps {
   message: string;
   openUp: boolean;
   closeDuration: number;
-  setOpenUp: (val: boolean) => void;
+  setOpenUp?: (val: boolean) => void;
   backgroundColor: string;
 }
 
@@ -27,8 +28,9 @@ function DescriptionAlerts({
   const dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
-      setOpenUp(false);
+      setOpenUp && setOpenUp(false);
       dispatch(notification());
+      dispatch(setErrorState());
     }, closeDuration);
   }, []);
 

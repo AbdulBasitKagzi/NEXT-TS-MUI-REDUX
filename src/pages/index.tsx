@@ -14,8 +14,10 @@ import ImageSlider from "../components/ImageSlider";
 import CategorySlider from "../components/CategoryTab";
 import ImageListComponent from "../sections/ImageListComponent";
 import { RootState } from "../store/store";
-import { productLists } from "../data/ProductsContant";
 import { assets } from "../assets";
+import { getAllProduct } from "@/store/product/product.thunk";
+import { useDispatch } from "react-redux";
+import { products } from "../data/Constants";
 
 // mui imports
 import { useTheme } from "@mui/material";
@@ -23,11 +25,23 @@ import { Box, Button, Typography } from "@mui/material";
 import Advertise from "../sections/Advertise/index";
 import ImageGrid from "../sections/ImageGrid/index";
 import CategoryGrid from "../sections/Categorygrid/index";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { Products } = useSelector((state: RootState) => state.product);
+  const { ProductsList, Products } = useSelector(
+    (state: RootState) => state.product
+  );
+  const dispatch = useDispatch<any>();
+
+  useEffect(() => {
+    dispatch(getAllProduct());
+  }, []);
+
+  useEffect(() => {
+    console.log("main", ProductsList);
+  }, [ProductsList]);
   const theme = useTheme();
   return (
     <>
@@ -214,7 +228,7 @@ export default function Home() {
                     mt: 12,
                   }}
                 >
-                  <Slider title="Deals" bestDeals={productLists} />
+                  <Slider title="Deals" bestDeals={ProductsList} />
                 </Box>
 
                 <Advertise
@@ -275,7 +289,7 @@ export default function Home() {
                   <ImageGrid />
                 </Box>
                 <Box sx={{ mt: 12 }}>
-                  <Slider title="Seller" bestDeals={productLists} />
+                  <Slider title="Seller" bestDeals={ProductsList} />
                 </Box>
                 <Box
                   sx={{

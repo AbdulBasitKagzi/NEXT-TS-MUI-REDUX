@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { productActions } from "../../store/product/product.slice";
 import Link from "next/link";
-import Image from "next/image";
-import store, { RootState } from "../../store/store";
+import { RootState } from "../../store/store";
 import { productProps } from "../../store/product/product.types";
 import WarningModel from "../WarningModel";
 
@@ -19,9 +18,6 @@ import { addProductToCart } from "../../store/cart/cart.slice";
 import { useTheme } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DescriptionAlerts from "../Alert";
-import { styled } from "@mui/material/styles";
-import { Card, CardMedia, CardContent, IconButton } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 interface data {
   id: number;
@@ -41,8 +37,7 @@ interface filterGridProps {
 
 const FilterGrid: React.FC<filterGridProps> = ({
   foundGender,
-  foundBrand,
-  foundCategory,
+
   toggleDrawer,
 }) => {
   const theme = useTheme();
@@ -80,21 +75,21 @@ const FilterGrid: React.FC<filterGridProps> = ({
     setOpenUp(added);
   }, [cartProducts]);
 
-  const StyledBox = styled(Box)({
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    // width: currentposts.length === 1 && "332px",
-    height: "100%",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-  });
-  const StyledIconButton = styled(IconButton)({
-    position: "absolute",
-    top: "10px",
-    left: "10px",
-  });
+  // const StyledBox = styled(Box)({
+  //   position: "relative",
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "space-between",
+  //   // width: currentposts.length === 1 && "332px",
+  //   height: "100%",
+  //   border: "1px solid #ccc",
+  //   borderRadius: "5px",
+  // });
+  // const StyledIconButton = styled(IconButton)({
+  //   position: "absolute",
+  //   top: "10px",
+  //   left: "10px",
+  // });
   return (
     <Box>
       <Box

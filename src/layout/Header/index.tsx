@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../../store/user/user.slice";
+import { makeRoute } from "@/store/user/user.slice";
 import { gender } from "../../data/Constants";
 import { assets } from "../../assets";
 
@@ -95,11 +95,12 @@ export default function DrawerAppBar(props: Props) {
                 }}
                 onClick={() => {
                   if (item.id === 0) {
-                    // navigate('/');
                     router.push("/");
-                  } else {
-                    dispatch(userActions.makeRoute(item.slug));
+                  } else if (item.id !== 3 && item.id !== 4) {
+                    dispatch(makeRoute(item.slug));
                     setOpenModel(true);
+                  } else {
+                    router.push("/");
                   }
                 }}
               >
@@ -226,7 +227,7 @@ export default function DrawerAppBar(props: Props) {
                       }}
                       onMouseEnter={() => {
                         if (item.id !== 0 && item.id !== 3 && item.id !== 4) {
-                          dispatch(userActions.makeRoute(item.slug));
+                          dispatch(makeRoute(item.slug));
                           setOpenModel(true);
                           setBackground(theme.palette.success.main);
                           setValue(item.id);

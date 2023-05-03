@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 
@@ -244,7 +243,11 @@ function ProductCard(): JSX.Element {
                       }}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      defaultValue={product.selectedSize}
+                      defaultValue={
+                        product.selectedSize
+                          ? product.selectedSize
+                          : product.size[0]
+                      }
                       label="Age"
                       placeholder="Select Size"
                     >
@@ -277,7 +280,11 @@ function ProductCard(): JSX.Element {
                     sx={{ width: { sm: "75px", xs: "50px" } }}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    defaultValue={product.selectedColor}
+                    defaultValue={
+                      product.selectedColor
+                        ? product.selectedColor
+                        : product.color[0]
+                    }
                     // value={age}
                     label="Age"
                     // value={color}

@@ -11,7 +11,6 @@ import { gender, brandFilter, categoriesFilter } from "../../data/Constants";
 // mui imports
 import { Box } from "@mui/system";
 import { Typography, useTheme } from "@mui/material";
-import store, { RootState } from "@/store/store";
 
 interface data {
   id: number;
@@ -31,14 +30,13 @@ export const CategoryDetail: React.FC = () => {
     sizes: Array<number> | null;
     priceRange: { min: number; max: number };
   }>({
-    gender: 1,
+    gender: 0,
     brands: [],
     categories: [],
     sizes: [],
     priceRange: { min: 200, max: 500 },
   });
 
-  const { routeValue } = useSelector((state: RootState) => state.user);
   const router = useRouter();
 
   useEffect(() => {

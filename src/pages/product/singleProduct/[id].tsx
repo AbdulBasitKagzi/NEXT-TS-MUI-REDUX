@@ -6,6 +6,7 @@ import { RootState } from "../../../store/store";
 import { sizeFilter, colorLists } from "../../../data/Constants";
 import DescriptionAlerts from "../../../components/Alert/index";
 import { useRouter } from "next/router";
+import { getProduct } from "@/store/product/product.thunk";
 
 import Image from "next/image";
 
@@ -22,6 +23,7 @@ import ProductDetail from "@/sections/ProductDetail";
 
 const ItemDetailView: React.FC = () => {
   const router = useRouter();
+  const dispatch = useDispatch<any>();
 
   //   const params = useParams();
   const { selectedProduct } = useSelector((state: RootState) => state.product);
@@ -33,15 +35,19 @@ const ItemDetailView: React.FC = () => {
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      setSave(localStorage.getItem("isAuth") || "");
+      setSave(localStorage.getItem("token") || "");
     }
   }, []);
 
   useEffect(() => {
-    if (!selectedProduct) {
-      router.push("/");
-    }
-  }, []);
+    dispatch(getProduct(router));
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (!selectedProduct) {
+  //     router.push("/");
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   if (!selectedProduct) {

@@ -168,8 +168,10 @@ export default function FilterSlider({
   };
 
   useEffect(() => {
-    dispatch(productActions.filterProducts(filterQuery));
-    setMin_Max([filterQuery.priceRange.min, filterQuery.priceRange.max]);
+    if (filterQuery.gender !== 0) {
+      dispatch(productActions.filterProducts(filterQuery));
+      setMin_Max([filterQuery.priceRange.min, filterQuery.priceRange.max]);
+    }
   }, [filterQuery, dispatch]);
 
   const setPriceRange = (value: Array<number>) => {
@@ -178,6 +180,8 @@ export default function FilterSlider({
       priceRange: { min: value[0], max: value[1] },
     }));
   };
+
+  console.log(filterQuery);
 
   const desktop_filter = () => {
     return (

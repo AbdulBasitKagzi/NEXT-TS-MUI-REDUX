@@ -31,7 +31,7 @@ export const gender = [
   {
     id: 4,
     value: "Outlet",
-    slug: "/",
+    slug: "//",
   },
 ];
 

@@ -1,13 +1,15 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { products } from "../../data/Constants";
 import { productLists } from "../../data/ProductsContant";
 import { ProductSliceType } from "../product/product.types";
+import { getAllProduct, getProduct } from "./product.thunk";
 
 const productState: ProductSliceType = {
-  Products: products,
-  ProductsList: productLists,
+  Products: [],
+  ProductsList: [],
   filter: [],
   selectedProduct: undefined,
+  isLoading: false,
 };
 
 const productSlice = createSlice({
@@ -106,6 +108,34 @@ const productSlice = createSlice({
     ) => {
       state.Products = [...products].filter((_) => _.type === payload);
     },
+  },
+  extraReducers: function (builder) {
+    builder.addCase(getAllProduct.fulfilled, (state, action: AnyAction) => {
+      console.log("full action", action.payload.data.data.items);
+      state.ProductsList = action.payload.data.data.items;
+      console.log("state", state.ProductsList);
+      state.isLoading = false;
+    });
+    builder.addCase(getAllProduct.pending, (state, action: AnyAction) => {
+      state.isLoading = true;
+      console.log("pend action", action.payload);
+    });
+    builder.addCase(getAllProduct.rejected, (state, action: AnyAction) => {
+      console.log("reje action", action.payload);
+      state.isLoading = false;
+    });
+
+    builder.addCase(getProduct.fulfilled, (state, action: AnyAction) => {
+      console.log("full getProd", action);
+      isLoading: false;
+    });
+    builder.addCase(getProduct.pending, (state, action: AnyAction) => {
+      isLoading: true;
+    });
+    builder.addCase(getProduct.rejected, (state, action: AnyAction) => {
+      console.log("reje getProd", action);
+      isLoading: false;
+    });
   },
 });
 

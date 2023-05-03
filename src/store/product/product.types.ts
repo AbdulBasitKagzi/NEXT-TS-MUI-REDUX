@@ -6,7 +6,6 @@ export interface SelectedProductProps {
   productOriginalPrice: number;
   productCurrentPrice: number;
   gender: number;
-  human: number;
   category: number;
   brand: number;
   size: Array<number>;
@@ -18,6 +17,23 @@ export interface SelectedProductProps {
   remainingStars?: number;
 }
 
+export interface sizes {
+  id: number;
+  size: {
+    id: number;
+    value: string;
+    slug: string;
+  };
+}
+
+export interface colors {
+  id: number;
+  color: {
+    id: number;
+    name: string;
+    hax_value: string;
+  };
+}
 export interface productProps {
   id: number;
   productName: string;
@@ -25,12 +41,13 @@ export interface productProps {
   productDescription: string[];
   productOriginalPrice: number;
   productCurrentPrice: number;
-  gender: number;
-  human: number;
-  category: number;
-  brand: number;
-  size: Array<number>;
-  color: Array<number>;
+  gender: genderProps;
+  category: categoryProps;
+  brand: brandProps;
+  // size: Array<number>;
+  // color: Array<number>;
+  productSizes: sizes[];
+  productColor: colors[];
   reviewRate: number;
   slug: string;
 }
@@ -64,4 +81,5 @@ export interface ProductSliceType {
   ProductsList: productProps[];
   filter: productProps[];
   selectedProduct: SelectedProductProps | null | undefined;
+  isLoading: boolean;
 }
