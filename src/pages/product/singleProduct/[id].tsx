@@ -1,12 +1,12 @@
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import Layout from "../../../layout";
 import { RootState } from "../../../store/store";
 import { sizeFilter, colorLists } from "../../../data/Constants";
 import DescriptionAlerts from "../../../components/Alert/index";
 import { useRouter } from "next/router";
 import { getProduct } from "@/store/product/product.thunk";
+import { addColor, addSize } from "@/store/product/product.slice";
 
 import Image from "next/image";
 
@@ -27,7 +27,9 @@ const ItemDetailView: React.FC = () => {
 
   //   const params = useParams();
   const { selectedProduct } = useSelector((state: RootState) => state.product);
-  const { cartProducts, added } = useSelector((state: RootState) => state.cart);
+  const { cartProducts, added, message } = useSelector(
+    (state: RootState) => state.cart
+  );
 
   const [openUp, setOpenUp] = useState<boolean>(false);
   const [save, setSave] = useState<string>();
@@ -40,21 +42,10 @@ const ItemDetailView: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getProduct(router));
-  }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (!selectedProduct) {
-  //     router.push("/");
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!selectedProduct) {
-  //     console.log("router", router.query);
-  //     dispatch(productActions.selectedProduct(router.query.id));
-  //   }
-  // }, []);
+    if (router.isReady) {
+      dispatch(getProduct(router.query.id));
+    }
+  }, [dispatch, router.isReady]);
 
   useEffect(() => {
     setOpenUp(added);
@@ -64,12 +55,12 @@ const ItemDetailView: React.FC = () => {
     <div>
       <Layout>
         <Box sx={{ maxWidth: "1600px", mx: "auto" }}>
-          {openUp && (
+          {added && (
             <DescriptionAlerts
               type="success"
               title="Success"
-              message="Product successfully added to cart"
-              openUp={openUp}
+              message={message}
+              openUp={added}
               setOpenUp={setOpenUp}
               closeDuration={2000}
               backgroundColor="#4caf50"

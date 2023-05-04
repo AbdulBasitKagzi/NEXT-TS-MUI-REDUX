@@ -21,10 +21,13 @@ export const getAllProduct = createAsyncThunk(
 
 export const getProduct = createAsyncThunk(
   "product/getProduct",
-  async (body: any, { dispatch, rejectWithValue }) => {
+  async (
+    body: string | string[] | undefined,
+    { dispatch, rejectWithValue }
+  ) => {
     console.log("body", body);
     try {
-      const product = await axios.get(backend_routes.get_product, {
+      const product = await axios.get(`${backend_routes.get_product}/${body}`, {
         headers: {
           "content-type": "application/json",
         },

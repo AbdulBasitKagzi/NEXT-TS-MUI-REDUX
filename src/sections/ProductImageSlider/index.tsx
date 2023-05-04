@@ -25,18 +25,20 @@ function ProductImageSlider() {
   const handlePrev = useCallback((value: string) => {
     if (value === "slider" && slider.current) {
       slider.current.swiper.slidePrev();
+    } else {
+      if (!sliderRef.current) return;
+      sliderRef.current.swiper.slidePrev();
     }
-    if (!sliderRef.current) return;
-    sliderRef.current.swiper.slidePrev();
   }, []);
 
   const handleNext = useCallback((value: string) => {
     if (value === "slider" && slider.current) {
       setImage("");
       slider.current.swiper.slideNext();
+    } else {
+      if (!sliderRef.current) return;
+      sliderRef.current.swiper.slideNext();
     }
-    if (!sliderRef.current) return;
-    sliderRef.current.swiper.slideNext();
   }, []);
 
   return (
@@ -67,8 +69,11 @@ function ProductImageSlider() {
               {image ? (
                 <Box sx={{ width: "280px", height: "436px" }}>
                   <img
-                    src={image.src}
-                    alt="women"
+                    src={
+                      images.productImage &&
+                      process.env.NEXT_PUBLIC_IMAGE_URL + image
+                    }
+                    alt={image}
                     style={{
                       borderInlineColor: "black",
                       border: 2,
@@ -85,8 +90,11 @@ function ProductImageSlider() {
               ) : (
                 <Box sx={{ width: "280px", height: "436px" }}>
                   <img
-                    src={images.productImage && images.productImage.src}
-                    alt="women"
+                    src={
+                      images.productImage &&
+                      process.env.NEXT_PUBLIC_IMAGE_URL + images?.productImage
+                    }
+                    alt={images.productImage}
                     style={{
                       objectFit: "none",
                       width: "100%",
@@ -166,8 +174,11 @@ function ProductImageSlider() {
             <SwiperSlide className={classes.selectedImage} key={images.id}>
               {index === imageValue ? (
                 <img
-                  src={images.productImage && images.productImage.src}
-                  alt="women"
+                  src={
+                    images.productImage &&
+                    process.env.NEXT_PUBLIC_IMAGE_URL + images.productImage
+                  }
+                  alt={images.productImage}
                   style={{
                     borderInlineColor: "black",
                     border: 2,
@@ -182,8 +193,11 @@ function ProductImageSlider() {
                 />
               ) : (
                 <img
-                  src={images.productImage && images.productImage.src}
-                  alt="women"
+                  src={
+                    images.productImage &&
+                    process.env.NEXT_PUBLIC_IMAGE_URL + images.productImage
+                  }
+                  alt={images.productImage}
                   style={{
                     objectFit: "contain",
                     cursor: "pointer",

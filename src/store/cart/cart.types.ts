@@ -1,26 +1,25 @@
+import {
+  brandProps,
+  categoryProps,
+  colors,
+  genderProps,
+  productProps,
+  sizes,
+} from "../product/product.types";
+
 export interface cartProducts {
   id: number;
-  product_id: string;
-  productName: string;
-  productImages: { id: number; productImage: string | undefined }[];
-  productDescription: Array<string>;
-  productOriginalPrice: number;
-  productCurrentPrice: number;
-  gender: number;
-  human: number;
-  category: number;
-  brand: number;
-  size: Array<number>;
-  color: Array<number>;
-  reviewRate: number;
-  slug: string;
+  product: productProps;
   quantity: number;
-  selectedSize?: number;
-  selectedColor?: number;
+  color?: number;
+  size?: number;
+  total_amount: number;
 }
 
 export interface cartSliceState {
   cartProducts: cartProducts[];
   added: boolean;
   subTotal: number;
+  message: string;
+  isLoading: boolean;
 }

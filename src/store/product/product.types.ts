@@ -5,11 +5,13 @@ export interface SelectedProductProps {
   productDescription: string[];
   productOriginalPrice: number;
   productCurrentPrice: number;
-  gender: number;
-  category: number;
-  brand: number;
-  size: Array<number>;
-  color: Array<number>;
+  gender: genderProps;
+  category: categoryProps;
+  brand: brandProps;
+  // size: Array<number>;
+  // color: Array<number>;
+  productSizes: sizes[];
+  productColors: colors[];
   reviewRate: number;
   slug: string;
   selectedSize?: number;
@@ -47,7 +49,7 @@ export interface productProps {
   // size: Array<number>;
   // color: Array<number>;
   productSizes: sizes[];
-  productColor: colors[];
+  productColors: colors[];
   reviewRate: number;
   slug: string;
 }

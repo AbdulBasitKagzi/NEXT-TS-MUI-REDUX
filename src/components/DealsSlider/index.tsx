@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { productActions } from "../../store/product/product.slice";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 import Image from "next/image";
+import Link from "next/link";
 
 import "swiper/css/navigation";
 
@@ -111,137 +112,143 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                 bestDeals?.map((deals) => (
                   <>
                     {/* {console.log("deals", deals)} */}
+
                     <SwiperSlide key={deals.id}>
-                      <Box
-                        key={deals.id}
-                        className="li"
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          flexDirection: "column",
-
-                          marginTop: {
-                            xl: "50px",
-                            lg: "40px",
-                            md: "50px",
-                            sm: "56px",
-                            xs: "30px",
-                          },
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          dispatch(productActions.selectedProduct(deals));
-                          router.push(`/product/singleProduct/${deals.slug}`);
-                        }}
+                      <Link
+                        href={`/product/singleProduct/${deals.id}`}
+                        style={{ textDecoration: "none" }}
                       >
-                        {deals.productImages?.map((image, index: number) => {
-                          if (index === 0) {
-                            return (
-                              <Box
-                                key={image.id}
-                                sx={{
-                                  width: {
-                                    lg: "200px",
-                                    md: "180px",
-                                    sm: "100px",
-                                    xs: "50px",
-                                  },
-                                  height: {
-                                    lg: "200px",
-                                    md: "180px",
-                                    sm: "150px",
-                                    xs: "100px",
-                                  },
-                                }}
-                              >
-                                <>
-                                  {image?.productImage && (
-                                    <img
-                                      key={image.id}
-                                      src={
-                                        process.env.NEXT_PUBLIC_IMAGE_URL +
-                                        image?.productImage
-                                      }
-                                      alt="deals"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "contain",
-                                      }}
-                                    />
-                                  )}
-                                </>
-                              </Box>
-                            );
-                          }
-                        })}
-
                         <Box
+                          key={deals.id}
+                          className="li"
                           sx={{
-                            textAlign: "left",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+
                             marginTop: {
-                              md: "55px",
-                              sm: "30px",
-                              xs: "10px",
+                              xl: "50px",
+                              lg: "40px",
+                              md: "50px",
+                              sm: "56px",
+                              xs: "30px",
                             },
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            // dispatch(productActions.selectedProduct(deals));
+                            // router.push(`/product/singleProduct/${deals.id}`);
                           }}
                         >
-                          <Typography
+                          {deals.productImages?.map((image, index: number) => {
+                            if (index === 0) {
+                              return (
+                                <Box
+                                  key={image.id}
+                                  sx={{
+                                    width: {
+                                      lg: "200px",
+                                      md: "180px",
+                                      sm: "100px",
+                                      xs: "50px",
+                                    },
+                                    height: {
+                                      lg: "200px",
+                                      md: "180px",
+                                      sm: "150px",
+                                      xs: "100px",
+                                    },
+                                  }}
+                                >
+                                  <>
+                                    {image?.productImage && (
+                                      <img
+                                        key={image.id}
+                                        src={
+                                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                                          image?.productImage
+                                        }
+                                        alt="deals"
+                                        style={{
+                                          width: "100%",
+                                          height: "100%",
+                                          objectFit: "contain",
+                                        }}
+                                      />
+                                    )}
+                                  </>
+                                </Box>
+                              );
+                            }
+                          })}
+
+                          <Box
                             sx={{
-                              fontSize: {
-                                lg: "25px",
-                                md: "18px",
-                                sm: "16px",
-                                xs: "8px",
+                              textAlign: "left",
+                              marginTop: {
+                                md: "55px",
+                                sm: "30px",
+                                xs: "10px",
                               },
-                              fontWeight: 700,
-                              fontFamily: "Jost",
-                              wordBreak: "break-all",
-                              padding: { xs: "1px" },
-                              color: theme.palette.primary.dark,
                             }}
                           >
-                            {deals.productName}
-                          </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: {
+                                  lg: "25px",
+                                  md: "18px",
+                                  sm: "16px",
+                                  xs: "8px",
+                                },
+                                fontWeight: 700,
+                                fontFamily: "Jost",
+                                wordBreak: "break-all",
+                                padding: { xs: "1px" },
+                                color: theme.palette.primary.dark,
+                              }}
+                            >
+                              {deals.productName}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ textAlign: "left" }}>
+                            <Typography
+                              sx={{
+                                mr: 1,
+                                display: "inline-block",
+                                color: theme.palette.secondary.light,
+                                fontSize: {
+                                  lg: 25,
+                                  md: 18,
+                                  sm: 12,
+                                  xs: 9,
+                                },
+                                fontWeight: 400,
+                                fontFamily: "Jost",
+                                textDecoration: "line-through",
+                              }}
+                            >
+                              $ {deals.productOriginalPrice}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                display: "inline-block",
+                                color: theme.palette.secondary.main,
+                                fontSize: {
+                                  lg: 25,
+                                  md: 18,
+                                  sm: 12,
+                                  xs: 9,
+                                },
+                                fontWeight: 400,
+                                fontFamily: "Jost",
+                              }}
+                            >
+                              $ {deals.productCurrentPrice}
+                            </Typography>
+                          </Box>
                         </Box>
-                        <Box sx={{ textAlign: "left" }}>
-                          <Typography
-                            sx={{
-                              mr: 1,
-                              display: "inline-block",
-                              color: theme.palette.secondary.light,
-                              fontSize: {
-                                lg: 25,
-                                md: 18,
-                                sm: 12,
-                                xs: 9,
-                              },
-                              fontWeight: 400,
-                              fontFamily: "Jost",
-                              textDecoration: "line-through",
-                            }}
-                          >
-                            $ {deals.productOriginalPrice}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              display: "inline-block",
-                              color: theme.palette.secondary.main,
-                              fontSize: {
-                                lg: 25,
-                                md: 18,
-                                sm: 12,
-                                xs: 9,
-                              },
-                              fontWeight: 400,
-                              fontFamily: "Jost",
-                            }}
-                          >
-                            $ {deals.productCurrentPrice}
-                          </Typography>
-                        </Box>
-                      </Box>
+                      </Link>
                     </SwiperSlide>
                   </>
                 ))

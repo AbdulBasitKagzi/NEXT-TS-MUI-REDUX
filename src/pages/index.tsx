@@ -26,6 +26,7 @@ import Advertise from "../sections/Advertise/index";
 import ImageGrid from "../sections/ImageGrid/index";
 import CategoryGrid from "../sections/Categorygrid/index";
 import { useEffect } from "react";
+import { getUserCart } from "@/store/cart/cart.thunk";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,11 +38,9 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getAllProduct());
+    dispatch(getUserCart());
   }, []);
 
-  useEffect(() => {
-    console.log("main", ProductsList);
-  }, [ProductsList]);
   const theme = useTheme();
   return (
     <>

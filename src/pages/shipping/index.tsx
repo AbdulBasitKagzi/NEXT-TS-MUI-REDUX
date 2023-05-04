@@ -65,9 +65,9 @@ const ShippingPage: React.FC = () => {
     message: "",
   });
 
-  useEffect(() => {
-    cartProducts.length === 0 && router.push("/");
-  }, [cartProducts.length]);
+  // useEffect(() => {
+  //   cartProducts.length === 0 && router.push("/");
+  // }, [cartProducts.length]);
 
   useEffect(() => {
     dispatch(calculateSubTotal());

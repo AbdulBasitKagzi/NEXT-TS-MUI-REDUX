@@ -5,9 +5,11 @@ import { assets } from "@/assets";
 import { Box, Button, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { RootState } from "@/store/store";
-import { productActions } from "@/store/product/product.slice";
+
 import { addProductToCart } from "@/store/cart/cart.slice";
 import { colorLists, sizeFilter } from "@/data/Constants";
+import { addColor, addSize } from "@/store/product/product.slice";
+import { addToCart } from "@/store/cart/cart.thunk";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -24,7 +26,7 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
   const theme = useTheme();
   const { selectedProduct } = useSelector((state: RootState) => state.product);
   const { cartProducts, added } = useSelector((state: RootState) => state.cart);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const router = useRouter();
 
   const [value, setValue] = useState(0);
@@ -35,44 +37,45 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
     "Brand",
     "Delivery",
   ]);
-  const [sizes, setSizes] = useState<
-    {
-      id: number;
-      value: string;
-      slug: string;
-    }[]
-  >();
-  const [color, setColor] = useState<
-    {
-      id: number;
-      name: string;
-      haxValue: string;
-    }[]
-  >();
 
-  useEffect(() => {
-    let fitleredata;
-    if (selectedProduct?.size) {
-      fitleredata = selectedProduct?.size.map((data) => {
-        return sizeFilter.filter((fill) => fill.id === data);
-      });
-    }
-    setSizes(fitleredata?.flatMap((i) => i));
-  }, [selectedProduct]);
+  // const [sizes, setSizes] = useState<
+  //   {
+  //     id: number;
+  //     value: string;
+  //     slug: string;
+  //   }[]
+  // >();
+  // const [color, setColor] = useState<
+  //   {
+  //     id: number;
+  //     name: string;
+  //     haxValue: string;
+  //   }[]
+  // >();
 
-  useEffect(() => {
-    if (selectedProduct?.color) {
-      let filteredColor: { id: number; name: string; haxValue: string }[] = [];
-      selectedProduct?.color.map((col) => {
-        return colorLists.map((color) => {
-          if (color.id === col) {
-            return filteredColor.push(color);
-          }
-        });
-      });
-      setColor(filteredColor);
-    }
-  }, [selectedProduct]);
+  // useEffect(() => {
+  //   let fitleredata;
+  //   if (selectedProduct?.size) {
+  //     fitleredata = selectedProduct?.size.map((data) => {
+  //       return sizeFilter.filter((fill) => fill.id === data);
+  //     });
+  //   }
+  //   setSizes(fitleredata?.flatMap((i) => i));
+  // }, [selectedProduct]);
+
+  // useEffect(() => {
+  //   if (selectedProduct?.color) {
+  //     let filteredColor: { id: number; name: string; haxValue: string }[] = [];
+  //     selectedProduct?.color.map((col) => {
+  //       return colorLists.map((color) => {
+  //         if (color.id === col) {
+  //           return filteredColor.push(color);
+  //         }
+  //       });
+  //     });
+  //     setColor(filteredColor);
+  //   }
+  // }, [selectedProduct]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -126,6 +129,10 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
     }
     return <Box sx={{ display: "flex" }}>{result}</Box>;
   };
+
+  useEffect(() => {
+    console.log("selected", selectedProduct);
+  }, [selectedProduct]);
   return (
     <Box
       sx={{
@@ -196,8 +203,8 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
       </Box>
       <Box sx={{ display: "flex", pt: 2, gap: 1 }}>
         {printStars(selectedProduct?.reviewRate)}
-        {selectedProduct?.remainingStars &&
-          printRemainingStars(selectedProduct?.remainingStars)}
+        {selectedProduct?.reviewRate &&
+          printRemainingStars(5 - selectedProduct?.reviewRate)}
 
         <Typography
           sx={{
@@ -301,11 +308,11 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
               gap: 2,
             }}
           >
-            {sizes?.map((size, index: number) =>
+            {selectedProduct?.productSizes?.map((size, index: number) =>
               sizeValue === index ? (
                 <Box
                   // label={size.slug}
-                  key={size.id}
+                  key={size.size.id}
                   sx={{
                     width: "81px",
                     height: "45px",
@@ -322,18 +329,18 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                   }}
                   onClick={(event) => {
                     dispatch(
-                      productActions.addSize({
-                        selectedSize: size.id,
+                      addSize({
+                        selectedSize: size.size.id,
                       })
                     );
                     handleSizeChange(event, index);
                   }}
                 >
-                  <Typography>{size.slug}</Typography>
+                  <Typography>{size.size.slug}</Typography>
                 </Box>
               ) : (
                 <Box
-                  key={size.id}
+                  key={size.size.id}
                   sx={{
                     width: "81px",
                     height: "45px",
@@ -346,14 +353,14 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                   }}
                   onClick={(event) => {
                     dispatch(
-                      productActions.addSize({
-                        selectedSize: size.id,
+                      addSize({
+                        selectedSize: size.size.id,
                       })
                     );
                     handleSizeChange(event, index);
                   }}
                 >
-                  <Typography>{size.slug}</Typography>
+                  <Typography>{size.size.slug}</Typography>
                 </Box>
               )
             )}
@@ -385,26 +392,28 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                 gap: 2,
               }}
             >
-              {color?.map((col, index: number) =>
+              {selectedProduct?.productColors?.map((col, index: number) =>
                 colorValue === index ? (
-                  <Box
-                    key={index}
-                    sx={{
-                      width: "50px",
-                      height: "50px",
-                      background: `${col.haxValue}`,
-                      cursor: "pointer",
-                      borderRadius: 2,
-                    }}
-                    onClick={(event) => {
-                      dispatch(
-                        productActions.addColor({
-                          selectedColor: col.id,
-                        })
-                      );
-                      handleColorChange(event, index);
-                    }}
-                  />
+                  <>
+                    <Box
+                      key={index}
+                      sx={{
+                        width: "50px",
+                        height: "50px",
+                        background: `${col.color.hax_value}`,
+                        cursor: "pointer",
+                        borderRadius: 2,
+                      }}
+                      onClick={(event) => {
+                        dispatch(
+                          addColor({
+                            selectedColor: col.color.id,
+                          })
+                        );
+                        handleColorChange(event, index);
+                      }}
+                    />
+                  </>
                 ) : (
                   <Box
                     key={index}
@@ -412,16 +421,15 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                       width: "35px",
                       height: "35px",
                       border: 1,
-                      background: `${col.haxValue}`,
-                      borderColor: `${col.haxValue}`,
-
+                      background: `${col.color.hax_value}`,
+                      borderColor: `${col.color.hax_value}`,
                       cursor: "pointer",
                       borderRadius: 2,
                     }}
                     onClick={(event) => {
                       dispatch(
-                        productActions.addColor({
-                          selectedColor: col.id,
+                        addColor({
+                          selectedColor: col.color.id,
                         })
                       );
                       handleColorChange(event, index);
@@ -497,7 +505,7 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
             if (!save) {
               setOpen(true);
             } else {
-              selectedProduct && dispatch(addProductToCart(selectedProduct));
+              // selectedProduct && dispatch(addProductToCart(selectedProduct));
               router.push("/shipping");
             }
           }}
@@ -523,8 +531,7 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
             if (!save) {
               setOpen(true);
             } else {
-              selectedProduct && dispatch(addProductToCart(selectedProduct));
-
+              selectedProduct && dispatch(addToCart(selectedProduct));
               // dispatch(cartActions.addProductToCart(product));
             }
           }}

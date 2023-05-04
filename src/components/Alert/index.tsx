@@ -10,7 +10,7 @@ interface alertProps {
   type: any;
   title: string;
   message: string;
-  openUp: boolean;
+  openUp?: boolean;
   closeDuration: number;
   setOpenUp?: (val: boolean) => void;
   backgroundColor: string;

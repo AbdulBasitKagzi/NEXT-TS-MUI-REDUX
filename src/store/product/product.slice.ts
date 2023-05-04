@@ -110,35 +110,47 @@ const productSlice = createSlice({
     },
   },
   extraReducers: function (builder) {
+    // get all products
     builder.addCase(getAllProduct.fulfilled, (state, action: AnyAction) => {
-      console.log("full action", action.payload.data.data.items);
       state.ProductsList = action.payload.data.data.items;
-      console.log("state", state.ProductsList);
+
       state.isLoading = false;
     });
     builder.addCase(getAllProduct.pending, (state, action: AnyAction) => {
       state.isLoading = true;
-      console.log("pend action", action.payload);
     });
     builder.addCase(getAllProduct.rejected, (state, action: AnyAction) => {
-      console.log("reje action", action.payload);
       state.isLoading = false;
     });
 
+    // get single porduct based on id
     builder.addCase(getProduct.fulfilled, (state, action: AnyAction) => {
       console.log("full getProd", action);
-      isLoading: false;
+      state.selectedProduct = action.payload.data.data;
+      if (state.selectedProduct) {
+        state.selectedProduct = {
+          ...state.selectedProduct,
+          selectedColor: state.selectedProduct?.productColors[0].color.id,
+        };
+
+        state.selectedProduct = {
+          ...state.selectedProduct,
+          selectedSize: state.selectedProduct?.productSizes[0].size.id,
+        };
+      }
+
+      state.isLoading = false;
     });
     builder.addCase(getProduct.pending, (state, action: AnyAction) => {
-      isLoading: true;
+      state.isLoading = true;
     });
     builder.addCase(getProduct.rejected, (state, action: AnyAction) => {
       console.log("reje getProd", action);
-      isLoading: false;
+      state.isLoading = false;
     });
   },
 });
 
-export const productActions = productSlice.actions;
+export const { addColor, addSize } = productSlice.actions;
 
 export default productSlice.reducer;
