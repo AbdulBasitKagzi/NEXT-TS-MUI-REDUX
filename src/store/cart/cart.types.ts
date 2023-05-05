@@ -22,4 +22,6 @@ export interface cartSliceState {
   subTotal: number;
   message: string;
   isLoading: boolean;
+  page: number;
+  error: boolean;
 }

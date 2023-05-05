@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { productActions } from "../../store/product/product.slice";
+// import { productActions } from "../../store/product/product.slice";
+// import { filterProducts } from "@/store/product/product.slice";
 import { MouseEvent } from "react";
 
 import {
@@ -169,7 +170,7 @@ export default function FilterSlider({
 
   useEffect(() => {
     if (filterQuery.gender !== 0) {
-      dispatch(productActions.filterProducts(filterQuery));
+      // dispatch(filterProducts(filterQuery));
       setMin_Max([filterQuery.priceRange.min, filterQuery.priceRange.max]);
     }
   }, [filterQuery, dispatch]);

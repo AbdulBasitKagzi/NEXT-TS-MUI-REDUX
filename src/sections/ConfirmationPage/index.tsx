@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { emptyCart } from "../../store/cart/cart.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 // mui imports
 import { Box, Button, Typography, useTheme } from "@mui/material";
 
 import { user } from "../../forms/userInformation/userInformation.types";
+import { RootState } from "@/store/store";
+import { place_order } from "@/store/user/user.thunk";
 
 interface confirmationPageProps {
   userInformation: user;
@@ -17,7 +18,8 @@ function ConfirmationPage({
   const theme = useTheme();
 
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
+  const { userShippingDetail } = useSelector((state: RootState) => state.user);
   return (
     <Box sx={{ mt: 11 }}>
       <Typography
@@ -29,7 +31,7 @@ function ConfirmationPage({
           color: theme.palette.info.dark,
         }}
       >
-        Your order is confirmed
+        Place your order
       </Typography>
       <Box
         sx={{
@@ -75,11 +77,11 @@ function ConfirmationPage({
             fontWeight: 700,
           }}
           onClick={() => {
-            dispatch(emptyCart());
-            router.push("/");
+            dispatch(place_order({ shippingAddress: userShippingDetail?.id }));
+            // router.push("/");
           }}
         >
-          Continue Shopping
+          Place your order
         </Button>
       </Box>
     </Box>

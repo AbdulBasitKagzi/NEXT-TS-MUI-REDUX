@@ -52,7 +52,7 @@ export const increment_decrement_cartProduct = createAsyncThunk(
     try {
       console.log("body", body);
       const response = await axios.patch(
-        `${backend_routes.increment_decrement_cartProduct}/${body.id}`,
+        `${backend_routes.cart.increment_decrement_cartProduct}/${body.id}`,
         body,
         {
           headers: {
@@ -62,7 +62,7 @@ export const increment_decrement_cartProduct = createAsyncThunk(
         }
       );
       if (response.status === 200) dispatch(getUserCart());
-      console.log("res", response.status);
+
       return response;
     } catch (error) {
       return rejectWithValue(error);

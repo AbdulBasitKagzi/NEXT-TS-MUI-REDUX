@@ -94,116 +94,118 @@ const CategorySlider: React.FC<categoryProps> = ({ bestDeals }) => {
                 </Typography>
               ) : (
                 bestDeals?.map((deals) => (
-                  <SwiperSlide key={deals.id}>
-                    <Box
-                      key={deals.id}
-                      className="li"
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "column",
-
-                        marginTop: {
-                          xl: "50px",
-                          lg: "40px",
-                          md: "50px",
-                          xs: "30px",
-                        },
-                      }}
-                    >
+                  <SwiperSlide>
+                    <>
                       <Box
+                        key={deals.id}
+                        className="li"
                         sx={{
-                          width: {
-                            lg: "200px",
-                            md: "180px",
-                            sm: "100px",
-                            xs: "50px",
-                          },
-                          height: {
-                            lg: "200px",
-                            md: "180px",
-                            sm: "150px",
-                            xs: "100px",
-                          },
-                        }}
-                      >
-                        <img
-                          src={deals?.image as string}
-                          alt="deals"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "contain",
-                          }}
-                        />
-                      </Box>
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexDirection: "column",
 
-                      <Box
-                        sx={{
-                          textAlign: "left",
                           marginTop: {
-                            md: "55px",
-                            sm: "30px",
-                            xs: "10px",
+                            xl: "50px",
+                            lg: "40px",
+                            md: "50px",
+                            xs: "30px",
                           },
                         }}
                       >
-                        <Typography
+                        <Box
                           sx={{
-                            fontSize: {
-                              lg: "25px",
-                              md: "18px",
-                              sm: "16px",
-                              xs: "8px",
+                            width: {
+                              lg: "200px",
+                              md: "180px",
+                              sm: "100px",
+                              xs: "50px",
                             },
-                            fontWeight: 700,
-                            fontFamily: "Jost",
-                            wordBreak: "break-all",
-                            padding: { xs: "1px" },
-                            color: theme.palette.primary.dark,
+                            height: {
+                              lg: "200px",
+                              md: "180px",
+                              sm: "150px",
+                              xs: "100px",
+                            },
                           }}
                         >
-                          {deals.productName}
-                        </Typography>
+                          <img
+                            src={deals?.image as string}
+                            alt="deals"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "contain",
+                            }}
+                          />
+                        </Box>
+
+                        <Box
+                          sx={{
+                            textAlign: "left",
+                            marginTop: {
+                              md: "55px",
+                              sm: "30px",
+                              xs: "10px",
+                            },
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: {
+                                lg: "25px",
+                                md: "18px",
+                                sm: "16px",
+                                xs: "8px",
+                              },
+                              fontWeight: 700,
+                              fontFamily: "Jost",
+                              wordBreak: "break-all",
+                              padding: { xs: "1px" },
+                              color: theme.palette.primary.dark,
+                            }}
+                          >
+                            {deals.productName}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              mr: 1,
+                              display: "inline-block",
+                              fontSize: {
+                                lg: 25,
+                                md: 18,
+                                sm: 12,
+                                xs: 9,
+                              },
+                              fontWeight: 400,
+                              fontFamily: "Jost",
+                              textDecoration: "line-through",
+                              color: theme.palette.secondary.main,
+                            }}
+                          >
+                            {deals.cancelPrice}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              display: "inline-block",
+                              color: theme.palette.primary.main,
+                              fontSize: {
+                                lg: 25,
+                                md: 18,
+                                sm: 12,
+                                xs: 9,
+                              },
+                              fontWeight: 400,
+                              fontFamily: "Jost",
+                            }}
+                          >
+                            {deals.price}
+                          </Typography>
+                        </Box>
                       </Box>
-                      <Box>
-                        <Typography
-                          sx={{
-                            mr: 1,
-                            display: "inline-block",
-                            fontSize: {
-                              lg: 25,
-                              md: 18,
-                              sm: 12,
-                              xs: 9,
-                            },
-                            fontWeight: 400,
-                            fontFamily: "Jost",
-                            textDecoration: "line-through",
-                            color: theme.palette.secondary.main,
-                          }}
-                        >
-                          {deals.cancelPrice}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            display: "inline-block",
-                            color: theme.palette.primary.main,
-                            fontSize: {
-                              lg: 25,
-                              md: 18,
-                              sm: 12,
-                              xs: 9,
-                            },
-                            fontWeight: 400,
-                            fontFamily: "Jost",
-                          }}
-                        >
-                          {deals.price}
-                        </Typography>
-                      </Box>
-                    </Box>
+                    </>
                   </SwiperSlide>
                 ))
               )}

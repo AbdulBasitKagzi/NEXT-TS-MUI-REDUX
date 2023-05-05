@@ -1,3 +1,5 @@
+import { user } from "@/forms/userInformation/userInformation.types";
+
 export interface userstate {
   User: Object;
   routeValue: string;
@@ -5,4 +7,5 @@ export interface userstate {
   token: string | null;
   message: string;
   error: boolean;
+  userShippingDetail: user | null;
 }

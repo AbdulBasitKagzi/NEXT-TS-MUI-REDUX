@@ -4,6 +4,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { useEffect } from "react";
 import { notification } from "../../store/cart/cart.slice";
 import { setErrorState } from "@/store/user/user.slice";
+import { setCartError } from "../../store/cart/cart.slice";
 import { useDispatch } from "react-redux";
 
 interface alertProps {
@@ -31,6 +32,7 @@ function DescriptionAlerts({
       setOpenUp && setOpenUp(false);
       dispatch(notification());
       dispatch(setErrorState());
+      dispatch(setCartError());
     }, closeDuration);
   }, []);
 

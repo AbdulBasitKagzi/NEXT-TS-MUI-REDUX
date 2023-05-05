@@ -26,6 +26,7 @@ import NavbarModel from "../../components/NavbarModel/index";
 import { RootState } from "../../store/store";
 import { cartProducts } from "../../store/cart/cart.types";
 import { useTheme } from "@mui/material";
+import { get_like_products } from "@/store/user/user.thunk";
 
 interface Props {
   /**
@@ -44,7 +45,7 @@ export default function DrawerAppBar(props: Props) {
   const { window } = props;
   // const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const [background, setBackground] = useState<string | undefined>(
     "transparent"
   );
@@ -65,15 +66,17 @@ export default function DrawerAppBar(props: Props) {
   const [openModel, setOpenModel] = useState<boolean>(false);
   const [value, setValue] = useState<number>(-1);
 
-  const [totalCartProducts, setTotalCartProducts] = useState<number>();
+  const [totalCartProducts, setTotalCartProducts] = useState<number>(0);
 
   useEffect(() => {
-    let total: number;
-    total = cartProducts.reduce((acc: number, curr: cartProducts) => {
-      total = acc + curr.quantity;
-      return total;
-    }, 0);
-    setTotalCartProducts(total);
+    let total: number = 0;
+    if (cartProducts.length) {
+      total = cartProducts.reduce((acc: number, curr: cartProducts) => {
+        total = acc + curr.quantity;
+        return total;
+      }, 0);
+      setTotalCartProducts(total);
+    }
   }, [cartProducts]);
 
   const drawer = (
@@ -208,7 +211,6 @@ export default function DrawerAppBar(props: Props) {
                       />
                     )}
                     <Typography
-                      key={item.id}
                       sx={{
                         color: theme.palette.primary.dark,
                         fontFamily: "Josefin Sans",
@@ -269,6 +271,8 @@ export default function DrawerAppBar(props: Props) {
                         router.push("/shipping");
                       } else if (item.id === 4) {
                         router.push("/login");
+                      } else if (item.id === 5) {
+                        dispatch(get_like_products());
                       }
                     }}
                   >

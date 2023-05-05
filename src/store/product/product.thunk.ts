@@ -6,11 +6,14 @@ export const getAllProduct = createAsyncThunk(
   "product/getAll",
   async (body, { dispatch, rejectWithValue }) => {
     try {
-      const products = await axios.get(backend_routes.get_all_products, {
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+      const products = await axios.get(
+        backend_routes.product.get_all_products,
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
 
       return products;
     } catch (error) {
@@ -27,11 +30,14 @@ export const getProduct = createAsyncThunk(
   ) => {
     console.log("body", body);
     try {
-      const product = await axios.get(`${backend_routes.get_product}/${body}`, {
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+      const product = await axios.get(
+        `${backend_routes.product.get_product}/${body}`,
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
       return product;
     } catch (error) {
       return rejectWithValue(error);

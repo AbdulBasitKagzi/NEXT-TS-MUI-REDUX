@@ -26,13 +26,13 @@ import StepperComponent from "@/components/Stepper";
 const ShippingPage: React.FC = () => {
   const router = useRouter();
   const steps = ["Shipping", "Billing", "Confirmation"];
-  const { cartProducts, subTotal } = useSelector(
+  const { cartProducts, subTotal, page } = useSelector(
     (state: RootState) => state.cart
   );
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState<number>(1);
-  const [date_time, setDate_Time] = useState(dayjs());
+  // const [page, setPage] = useState<number>(1);
+  const [date_time, setDate_Time] = useState<any>(dayjs());
   const [selectedValue, setSelectedValue] = useState("creditCard");
   const [userInformation, setUserInformation] = useState<user>({
     firstName: "",
@@ -72,6 +72,10 @@ const ShippingPage: React.FC = () => {
   useEffect(() => {
     dispatch(calculateSubTotal());
   }, [cartProducts]);
+
+  useEffect(() => {
+    console.log("user", userInformation);
+  }, [userInformation]);
 
   return (
     <Box sx={{ maxWidth: "1600px", mx: "auto" }}>
@@ -138,16 +142,11 @@ const ShippingPage: React.FC = () => {
               <UserInformation
                 userInformation={userInformation}
                 setUserInformation={setUserInformation}
-                setPage={setPage}
-                page={page}
-                // handleUserValidation={handleUserValidation}
               />
             )}
 
             {page === 2 && (
               <UserPaymentInformation
-                page={page}
-                setPage={setPage}
                 total={subTotal + vat_tax + shipping}
                 setSelectedValue={setSelectedValue}
                 setPaymentInformation={setPaymentInformation}

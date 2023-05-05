@@ -2,7 +2,7 @@ import { useRef, useCallback } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { productActions } from "../../store/product/product.slice";
+// import { productActions } from "../../store/product/product.slice";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -111,15 +111,12 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
               ) : (
                 bestDeals?.map((deals) => (
                   <>
-                    {/* {console.log("deals", deals)} */}
-
                     <SwiperSlide key={deals.id}>
                       <Link
                         href={`/product/singleProduct/${deals.id}`}
                         style={{ textDecoration: "none" }}
                       >
                         <Box
-                          key={deals.id}
                           className="li"
                           sx={{
                             display: "flex",
@@ -144,41 +141,42 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                           {deals.productImages?.map((image, index: number) => {
                             if (index === 0) {
                               return (
-                                <Box
-                                  key={image.id}
-                                  sx={{
-                                    width: {
-                                      lg: "200px",
-                                      md: "180px",
-                                      sm: "100px",
-                                      xs: "50px",
-                                    },
-                                    height: {
-                                      lg: "200px",
-                                      md: "180px",
-                                      sm: "150px",
-                                      xs: "100px",
-                                    },
-                                  }}
-                                >
-                                  <>
-                                    {image?.productImage && (
-                                      <img
-                                        key={image.id}
-                                        src={
-                                          process.env.NEXT_PUBLIC_IMAGE_URL +
-                                          image?.productImage
-                                        }
-                                        alt="deals"
-                                        style={{
-                                          width: "100%",
-                                          height: "100%",
-                                          objectFit: "contain",
-                                        }}
-                                      />
-                                    )}
-                                  </>
-                                </Box>
+                                <>
+                                  <Box
+                                    key={index}
+                                    sx={{
+                                      width: {
+                                        lg: "200px",
+                                        md: "180px",
+                                        sm: "100px",
+                                        xs: "50px",
+                                      },
+                                      height: {
+                                        lg: "200px",
+                                        md: "180px",
+                                        sm: "150px",
+                                        xs: "100px",
+                                      },
+                                    }}
+                                  >
+                                    <>
+                                      {image?.productImage && (
+                                        <img
+                                          src={
+                                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                                            image?.productImage
+                                          }
+                                          alt="deals"
+                                          style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "contain",
+                                          }}
+                                        />
+                                      )}
+                                    </>
+                                  </Box>
+                                </>
                               );
                             }
                           })}

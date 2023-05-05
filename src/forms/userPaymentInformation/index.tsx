@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -14,13 +15,13 @@ import {
   NoSsr,
 } from "@mui/material";
 import { assets } from "../../assets";
+import { useDispatch } from "react-redux";
 import { paymentInformation } from "./userPaymentInformation";
+import { decrementPage } from "@/store/cart/cart.slice";
+import { user_payment_detail } from "@/store/user/user.thunk";
 
 interface userPaymentInformationprops {
-  page: number;
-  setPage: (value: number) => void;
   total: number;
-  // handlePaymentValidation: (value: paymentInformation) => void;
   selectedValue: string;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
   setPaymentInformation: React.Dispatch<
@@ -30,12 +31,11 @@ interface userPaymentInformationprops {
 }
 
 function UserPaymentInformation({
-  page,
-  setPage,
   total,
   selectedValue,
   setPaymentInformation,
   setSelectedValue,
+  paymentInformation,
 }: userPaymentInformationprops): JSX.Element {
   const theme = useTheme();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +45,8 @@ function UserPaymentInformation({
       radio_buttons: event.target.value,
     }));
   };
+  const [go, setGo] = useState<boolean>(false);
+  const dispatch = useDispatch<any>();
 
   const formik = useFormik({
     initialValues: {
@@ -69,11 +71,13 @@ function UserPaymentInformation({
         .required("CVV number is required"),
     }),
     onSubmit: (values) => {
+      let data = { ...paymentInformation, ...values };
       setPaymentInformation((prev) => ({
         ...prev,
         ...values,
       }));
-      setPage(page + 1);
+
+      dispatch(user_payment_detail(data));
     },
     validateOnBlur: true,
   });
@@ -270,6 +274,9 @@ function UserPaymentInformation({
                 onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                   e.target.value = e.target.value.toString().slice(0, 5);
                 }}
+                // inputProps={{
+                //   min: "2023-05-5T00:00",
+                // }}
                 fullWidth
                 value={formik.values.expiration}
                 autoComplete="shipping address-line1"
@@ -365,7 +372,7 @@ function UserPaymentInformation({
                 textTransform: "capitalize",
                 fontSize: { sm: "20px", xs: "16px" },
               }}
-              onClick={() => setPage(page - 1)}
+              onClick={() => dispatch(decrementPage())}
             >
               Back
             </Button>

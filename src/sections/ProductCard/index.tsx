@@ -18,13 +18,13 @@ import {
   useTheme,
 } from "@mui/material";
 import { DeleteOutlineOutlined } from "@mui/icons-material";
-import { decrement, increment, removeProduct } from "@/store/cart/cart.slice";
+import DescriptionAlerts from "@/components/Alert";
 import { colorLists, sizeFilter } from "@/data/Constants";
 import Loader from "@/components/Loader";
 
 function ProductCard(): JSX.Element {
   const theme = useTheme();
-  const { cartProducts, subTotal, isLoading, message } = useSelector(
+  const { cartProducts, subTotal, isLoading, message, error } = useSelector(
     (state: RootState) => state.cart
   );
   const dispatch = useDispatch<any>();
@@ -64,6 +64,16 @@ function ProductCard(): JSX.Element {
         <Loader />
       ) : (
         <>
+          {error && (
+            <DescriptionAlerts
+              openUp={error}
+              title="Error"
+              type="error"
+              message={message}
+              closeDuration={2000}
+              backgroundColor="#cc0000"
+            />
+          )}
           <Box
             sx={{
               backgroundColor: theme.palette.info.contrastText,
@@ -93,7 +103,6 @@ function ProductCard(): JSX.Element {
                 ) => (
                   <>
                     <Box
-                      key={id}
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -154,7 +163,7 @@ function ProductCard(): JSX.Element {
                         {product.productDescription.length &&
                           product.productDescription.map(
                             (desc: string, index) => (
-                              <Box key={index}>
+                              <Box>
                                 <Typography
                                   sx={{
                                     fontFamily: "Inter",
@@ -270,7 +279,6 @@ function ProductCard(): JSX.Element {
                             Size
                           </Typography>
                           <>
-                            {console.log("checksize", size)}
                             <Select
                               sx={{
                                 width: {
@@ -281,12 +289,7 @@ function ProductCard(): JSX.Element {
                               }}
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
-                              defaultValue={
-                                // product.selectedSize
-                                //   ? product.selectedSize
-                                //   : product.size[0]
-                                size
-                              }
+                              value={size}
                               label="Age"
                               placeholder="Select Size"
                               onChange={(e) => {
@@ -301,7 +304,7 @@ function ProductCard(): JSX.Element {
                               {product.productSizes.map(
                                 ({ size }, index: number) => {
                                   return (
-                                    <MenuItem key={id} value={size.id}>
+                                    <MenuItem value={size.id}>
                                       {size.slug}
                                     </MenuItem>
                                   );
@@ -318,17 +321,8 @@ function ProductCard(): JSX.Element {
                             sx={{ width: { sm: "75px", xs: "50px" } }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            defaultValue={
-                              // product.selectedColor
-                              //   ? product.selectedColor
-                              //   : product.color[0]
-                              color
-                            }
-                            // value={age}
+                            value={color}
                             label="Age"
-                            // value={color}
-                            // onChange={handleChange}
-                            // onChange={handleColor}
                             onChange={(e) => {
                               dispatch(
                                 update_cartProduct({
@@ -341,7 +335,7 @@ function ProductCard(): JSX.Element {
                             {product.productColors.map(
                               ({ color }, index: number) => {
                                 return (
-                                  <MenuItem key={id} value={color.id}>
+                                  <MenuItem value={color.id}>
                                     {color.name}
                                   </MenuItem>
                                 );

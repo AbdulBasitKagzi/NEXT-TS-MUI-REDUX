@@ -16,12 +16,24 @@ const cartStates: cartSliceState = {
   subTotal: 0,
   message: "",
   isLoading: false,
+  page: 1,
+  error: false,
 };
 
 const cartSlice = createSlice({
   name: "cartSlice",
   initialState: cartStates,
   reducers: {
+    incrementPage: (state) => {
+      state.page = state.page + 1;
+    },
+    decrementPage: (state) => {
+      state.page = state.page - 1;
+    },
+    setCartError: (state) => {
+      state.error = false;
+    },
+
     addProductToCart: (
       state: cartSliceState,
       action: PayloadAction<SelectedProductProps>
@@ -43,57 +55,57 @@ const cartSlice = createSlice({
       // }
       // state.added = true;
     },
-    increment: (
-      state: cartSliceState,
-      action: PayloadAction<{ id: number }>
-    ) => {
-      const data = state.cartProducts.find(
-        (product) => product.product_id === action.payload.id
-      );
+    // increment: (
+    //   state: cartSliceState,
+    //   action: PayloadAction<{ id: number }>
+    // ) => {
+    //   const data = state.cartProducts.find(
+    //     (product) => product.product_id === action.payload.id
+    //   );
 
-      if (data) {
-        const index = state.cartProducts.indexOf(data);
-        state.cartProducts[index].quantity++;
-      }
-    },
-    decrement: (
-      state: cartSliceState,
-      action: PayloadAction<{ id: number }>
-    ) => {
-      let index: number = 0;
-      let temp;
-      let tempData;
+    //   if (data) {
+    //     const index = state.cartProducts.indexOf(data);
+    //     state.cartProducts[index].quantity++;
+    //   }
+    // },
+    // decrement: (
+    //   state: cartSliceState,
+    //   action: PayloadAction<{ id: number }>
+    // ) => {
+    //   let index: number = 0;
+    //   let temp;
+    //   let tempData;
 
-      temp = [...state.cartProducts].map((product) => {
-        if (product.product_id === action.payload.id) {
-          product.quantity--;
-          return { ...product };
-        } else {
-          return { ...product };
-        }
-      });
+    //   temp = [...state.cartProducts].map((product) => {
+    //     if (product.product_id === action.payload.id) {
+    //       product.quantity--;
+    //       return { ...product };
+    //     } else {
+    //       return { ...product };
+    //     }
+    //   });
 
-      state.cartProducts = [...temp];
+    //   state.cartProducts = [...temp];
 
-      tempData = [...state.cartProducts].filter(
-        (product) => product.quantity !== 0
-      );
-      console.log("remaining", tempData);
-      state.cartProducts = [...tempData];
-    },
-    removeProduct: (
-      state: cartSliceState,
-      action: PayloadAction<{ id: number }>
-    ) => {
-      let temp;
-      temp = [...state.cartProducts].filter(
-        (product) => product.product_id !== action.payload.id
-      );
-      state.cartProducts = [...temp];
-    },
-    emptyCart: (state: cartSliceState) => {
-      state.cartProducts = [];
-    },
+    //   tempData = [...state.cartProducts].filter(
+    //     (product) => product.quantity !== 0
+    //   );
+    //   console.log("remaining", tempData);
+    //   state.cartProducts = [...tempData];
+    // },
+    // removeProduct: (
+    //   state: cartSliceState,
+    //   action: PayloadAction<{ id: number }>
+    // ) => {
+    //   let temp;
+    //   temp = [...state.cartProducts].filter(
+    //     (product) => product.product_id !== action.payload.id
+    //   );
+    //   state.cartProducts = [...temp];
+    // },
+    // emptyCart: (state: cartSliceState) => {
+    //   state.cartProducts = [];
+    // },
     notification: (state) => {
       state.added = false;
     },
@@ -110,27 +122,31 @@ const cartSlice = createSlice({
       state.message = action.payload.data.message;
       state.added = true;
       state.isLoading = false;
+      state.error = false;
     });
     builder.addCase(addToCart.pending, (state, action: AnyAction) => {
       state.isLoading = true;
     });
-    builder.addCase(addToCart.rejected, (state, action: AnyAction) => {});
+    builder.addCase(addToCart.rejected, (state, action: AnyAction) => {
+      state.error = true;
+    });
 
     // get user cart
     builder.addCase(getUserCart.fulfilled, (state, action: AnyAction) => {
       console.log("full getCart", action.payload);
       state.cartProducts = action.payload.data.data.items;
       state.isLoading = false;
+      state.error = false;
     });
     builder.addCase(getUserCart.pending, (state, action: AnyAction) => {
       state.isLoading = true;
     });
     builder.addCase(getUserCart.rejected, (state, action: AnyAction) => {
       console.log("reje", action.payload.response);
+
       state.message = action.payload.response.data.error.message;
       state.isLoading = false;
       state.cartProducts = action.payload.response.data.error.data;
-      console.log("checccc", state.cartProducts);
     });
 
     // increment decrement cart product
@@ -138,6 +154,7 @@ const cartSlice = createSlice({
       increment_decrement_cartProduct.fulfilled,
       (state, action: AnyAction) => {
         state.isLoading = false;
+        state.error = false;
       }
     );
     builder.addCase(
@@ -149,8 +166,10 @@ const cartSlice = createSlice({
     builder.addCase(
       increment_decrement_cartProduct.rejected,
       (state, action: AnyAction) => {
-        console.log("pend increment_decrement", action.payload);
+        console.log("pend increment_decrement", action.payload.response.data);
         state.isLoading = false;
+        state.message = action.payload.response.data.error.message;
+        state.error = true;
       }
     );
 
@@ -159,14 +178,16 @@ const cartSlice = createSlice({
       update_cartProduct.fulfilled,
       (state, action: AnyAction) => {
         state.isLoading = false;
+        state.error = false;
       }
     );
     builder.addCase(update_cartProduct.pending, (state, action: AnyAction) => {
       // state.isLoading = true;
     });
     builder.addCase(update_cartProduct.rejected, (state, action: AnyAction) => {
-      console.log("pend increment_decrement", action.payload);
+      console.log("rejec update cart product", action.payload);
       state.isLoading = false;
+      state.error = true;
     });
   },
 });
@@ -174,10 +195,13 @@ const cartSlice = createSlice({
 export const {
   addProductToCart,
   calculateSubTotal,
-  decrement,
-  emptyCart,
-  increment,
+  // decrement,
+  // emptyCart,
+  // increment,
   notification,
-  removeProduct,
+  // removeProduct,
+  incrementPage,
+  decrementPage,
+  setCartError,
 } = cartSlice.actions;
 export default cartSlice.reducer;

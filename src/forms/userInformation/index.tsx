@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -26,38 +27,37 @@ import { user } from "./userInformation.types";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import SearchIcon from "@mui/icons-material/Search";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { user_shipping_detail } from "@/store/user/user.thunk";
 interface UserInformationType {
   userInformation: user;
   setUserInformation: React.Dispatch<React.SetStateAction<user>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  page: number;
-  // handleUserValidation: (value: user) => void;
 }
 
 function UserInformation({
   setUserInformation,
-  setPage,
-  page,
+
+  userInformation,
 }: // handleUserValidation
 UserInformationType): JSX.Element {
   const theme = useTheme();
-  const [date_time, setDate_Time] = useState(dayjs());
+  const [date_time, setDate_Time] = useState<any>(dayjs());
 
   const handleDate = (newValue: any) => {
     setDate_Time(newValue);
     setUserInformation((prev) => ({
       ...prev,
-      date: newValue.toString(),
+      date: newValue.toISOString(),
     }));
   };
   const handleTime = (newValue: any) => {
     setDate_Time(newValue);
     setUserInformation((prev) => ({
       ...prev,
-      time: newValue.toString(),
+      time: new Date(newValue).toTimeString(),
     }));
-    setPage((prev) => prev + 1);
   };
+
+  const dispatch = useDispatch<any>();
 
   const formik = useFormik({
     initialValues: {
@@ -70,7 +70,6 @@ UserInformationType): JSX.Element {
       zipCode: "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required("First name is required"),
       lastName: Yup.string().required("Last name is required"),
       emailaddress: Yup.string()
         .email("Invalid email address")
@@ -85,12 +84,10 @@ UserInformationType): JSX.Element {
         .required("Zipcode is required"),
     }),
 
-    onSubmit: (values) => {
-      setUserInformation((prev) => ({
-        ...prev,
-        ...values,
-      }));
-      setPage(page + 1);
+    onSubmit: async (values) => {
+      let data = { ...userInformation, ...values };
+      setUserInformation(data);
+      await dispatch(user_shipping_detail(data));
     },
     validateOnBlur: true,
   });

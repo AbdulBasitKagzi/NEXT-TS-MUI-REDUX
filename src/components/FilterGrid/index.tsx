@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { productActions } from "../../store/product/product.slice";
+// import { productActions } from "../../store/product/product.slice";
 import Link from "next/link";
 import { RootState } from "../../store/store";
 import { productProps } from "../../store/product/product.types";
@@ -75,21 +75,6 @@ const FilterGrid: React.FC<filterGridProps> = ({
     setOpenUp(added);
   }, [cartProducts]);
 
-  // const StyledBox = styled(Box)({
-  //   position: "relative",
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   justifyContent: "space-between",
-  //   // width: currentposts.length === 1 && "332px",
-  //   height: "100%",
-  //   border: "1px solid #ccc",
-  //   borderRadius: "5px",
-  // });
-  // const StyledIconButton = styled(IconButton)({
-  //   position: "absolute",
-  //   top: "10px",
-  //   left: "10px",
-  // });
   return (
     <Box>
       <Box
@@ -187,7 +172,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
                       cursor: "pointer",
                     }}
                     onClick={() => {
-                      dispatch(productActions.selectedProduct(arr));
+                      // dispatch(productActions.selectedProduct(arr));
                     }}
                   >
                     <Box>
@@ -197,9 +182,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
                             <Box key={image.id}>
                               <img
                                 className="product_image"
-                                src={
-                                  image.productImage && image.productImage.src
-                                }
+                                src={image.productImage && image.productImage}
                                 alt={image.productImage}
                                 style={{ width: "100%", height: "300px" }}
                               />
