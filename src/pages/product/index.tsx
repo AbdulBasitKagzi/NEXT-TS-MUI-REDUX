@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 import Layout from "../../layout";
@@ -11,80 +11,95 @@ import { gender, brandFilter, categoriesFilter } from "../../data/Constants";
 // mui imports
 import { Box } from "@mui/system";
 import { Typography, useTheme } from "@mui/material";
+import { getFilteredProducts } from "@/store/product/product.thunk";
+import { RootState } from "@/store/store";
+import { data, filterQueryTypes } from "./product.types";
 
-interface data {
-  id: number;
-  value: string;
-  slug: string;
-}
 export const CategoryDetail: React.FC = () => {
   const theme = useTheme();
 
+  const router = useRouter();
+
+  const { routeValue } = useSelector((state: RootState) => state.user);
   const [foundGender, setFoundGender] = useState<data>();
   const [foundBrand, setFoundBrand] = useState<data>();
   const [foundCategory, setFoundCategory] = useState<data>();
-  const [filterQuery, setFilterQuery] = useState<{
-    gender: number;
-    brands: Array<number>;
-    categories: Array<number> | null;
-    sizes: Array<number> | null;
-    priceRange: { min: number; max: number };
-  }>({
-    gender: 0,
+  const [filterQuery, setFilterQuery] = useState<filterQueryTypes>({
+    gender: router.query.gender,
     brands: [],
     categories: [],
     sizes: [],
-    priceRange: { min: 200, max: 500 },
+    priceRange: { min: "0", max: "1000" },
+    page: 1,
   });
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const dispatch = useDispatch<any>();
 
-  const router = useRouter();
-
-  useEffect(() => {
-    setFilterQuery((prev) => ({
-      ...prev,
-      brands: [],
-      categories: [],
-    }));
-
-    setFoundGender(
-      gender.find((gender) => gender.slug === router.query.gender)
-    );
-    setFoundBrand(
-      brandFilter.find((brand) => brand.slug === router.query.brand)
-    );
-    setFoundCategory(
-      categoriesFilter?.find(
-        (category) => category?.slug === router.query.categories
-      )
-    );
-  }, [router.query]);
+  console.log("router", router);
 
   useEffect(() => {
-    if (foundGender?.id) {
+    if (router.isReady) {
       setFilterQuery((prev) => ({
         ...prev,
-        gender: foundGender?.id,
+        gender: router.query.gender,
+        brands: router.query.brands ? [+router.query.brands] : [],
+        categories: router.query.categories ? [+router.query.categories] : [],
       }));
     }
-  }, [foundGender, foundBrand, foundCategory]);
+  }, [router.isReady, router.query]);
 
   useEffect(() => {
-    if (foundBrand?.id) {
-      setFilterQuery((prev) => ({
-        ...prev,
-        brands: [foundBrand.id],
-      }));
+    if (router.isReady) {
+      dispatch(getFilteredProducts(filterQuery));
     }
-  }, [foundGender, foundBrand, foundCategory]);
+  }, [router.isReady, filterQuery]);
 
-  useEffect(() => {
-    if (foundCategory?.id) {
-      setFilterQuery((prev) => ({
-        ...prev,
-        categories: [foundCategory.id],
-      }));
-    }
-  }, [foundCategory]);
+  // useEffect(() => {
+  //   setFilterQuery((prev) => ({
+  //     ...prev,
+  //     brands: [],
+  //     categories: [],
+  //   }));
+
+  //   setFoundGender(
+  //     gender.find((gender) => gender.slug === router.query.gender)
+  //   );
+  //   setFoundBrand(
+  //     brandFilter.find((brand) => brand.slug === router.query.brand)
+  //   );
+  //   setFoundCategory(
+  //     categoriesFilter?.find(
+  //       (category) => category?.slug === router.query.categories
+  //     )
+  //   );
+  // }, [router.query]);
+
+  // useEffect(() => {
+  //   if (foundGender?.id) {
+  //     setFilterQuery((prev) => ({
+  //       ...prev,
+  //       gender: foundGender?.id,
+  //     }));
+  //   }
+  // }, [foundGender, foundBrand, foundCategory]);
+
+  // useEffect(() => {
+  //   if (foundBrand?.id) {
+  //     setFilterQuery((prev) => ({
+  //       ...prev,
+  //       brands: [foundBrand.id],
+  //     }));
+  //   }
+  // }, [foundGender, foundBrand, foundCategory]);
+
+  // useEffect(() => {
+  //   if (foundCategory?.id) {
+  //     setFilterQuery((prev) => ({
+  //       ...prev,
+  //       categories: [foundCategory.id],
+  //     }));
+  //   }
+  // }, [foundCategory]);
 
   const [state, setState] = useState({
     bottom: false,
@@ -139,12 +154,16 @@ export const CategoryDetail: React.FC = () => {
                 setFilterQuery={setFilterQuery}
                 toggleDrawer={toggleDrawer}
                 state={state}
+                currentPage={currentPage}
               />
               <FilterGrid
                 foundGender={foundGender as data}
                 foundBrand={foundBrand as data}
                 foundCategory={foundCategory as data}
                 toggleDrawer={toggleDrawer}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                setFilterQuery={setFilterQuery}
               />
             </Box>
           </Box>

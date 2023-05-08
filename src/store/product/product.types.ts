@@ -48,8 +48,8 @@ export interface productProps {
   brand: brandProps;
   // size: Array<number>;
   // color: Array<number>;
-  productSizes: sizes[];
-  productColors: colors[];
+  productSizes?: sizes[];
+  productColors?: colors[];
   reviewRate: number;
   slug: string;
 }
@@ -81,7 +81,8 @@ export interface categoryProps {
 export interface ProductSliceType {
   Products: product[];
   ProductsList: productProps[];
-  filter: productProps[];
+  filteredProducts: productProps[];
   selectedProduct: SelectedProductProps | null | undefined;
   isLoading: boolean;
+  totalProduct: number;
 }

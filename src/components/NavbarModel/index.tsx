@@ -102,7 +102,7 @@ const NavbarModel: React.FC<menuProps> = ({
                 <Box sx={{ mt: 4 }}>
                   {categoriesFilter.map((category) => (
                     <Link
-                      href={`/product?gender=${routeValue}&categories=${category.slug}`}
+                      href={`/product?gender=${routeValue}&categories=${category.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       <ListItem
@@ -147,7 +147,7 @@ const NavbarModel: React.FC<menuProps> = ({
                 <Box sx={{ mt: 4 }}>
                   {brandFilter.map((brand) => (
                     <Link
-                      href={`/product?gender=${routeValue}&brand=${brand.slug}`}
+                      href={`/product?gender=${routeValue}&brands=${brand.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       <ListItem

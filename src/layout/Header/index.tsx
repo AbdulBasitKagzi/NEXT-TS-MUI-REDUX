@@ -199,7 +199,7 @@ export default function DrawerAppBar(props: Props) {
               >
                 {gender.map((item) => (
                   <Link
-                    href={item.id === 0 ? `/` : `/product?gender=${item.slug}`}
+                    href={item.id === 0 ? `/` : `/product?gender=${item.id}`}
                     style={{ textDecoration: "none" }}
                   >
                     {item.id === 0 && (
@@ -229,7 +229,7 @@ export default function DrawerAppBar(props: Props) {
                       }}
                       onMouseEnter={() => {
                         if (item.id !== 0 && item.id !== 3 && item.id !== 4) {
-                          dispatch(makeRoute(item.slug));
+                          dispatch(makeRoute(item.id));
                           setOpenModel(true);
                           setBackground(theme.palette.success.main);
                           setValue(item.id);

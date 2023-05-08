@@ -1,14 +1,19 @@
 import { AnyAction, PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { products } from "../../data/Constants";
 import { ProductSliceType } from "../product/product.types";
-import { getAllProduct, getProduct } from "./product.thunk";
+import {
+  getAllProduct,
+  getFilteredProducts,
+  getProduct,
+} from "./product.thunk";
 
 const productState: ProductSliceType = {
   Products: [],
   ProductsList: [],
-  filter: [],
+  filteredProducts: [],
   selectedProduct: undefined,
   isLoading: false,
+  totalProduct: 0,
 };
 
 const productSlice = createSlice({
@@ -113,7 +118,6 @@ const productSlice = createSlice({
     // get all products
     builder.addCase(getAllProduct.fulfilled, (state, action: AnyAction) => {
       state.ProductsList = action.payload.data.data.items;
-
       state.isLoading = false;
     });
     builder.addCase(getAllProduct.pending, (state, action: AnyAction) => {
@@ -148,6 +152,27 @@ const productSlice = createSlice({
       console.log("reje getProd", action);
       state.isLoading = false;
     });
+
+    builder.addCase(
+      getFilteredProducts.fulfilled,
+      (state, action: AnyAction) => {
+        console.log("full fillterProd", action);
+        state.filteredProducts = action.payload.data.data.items;
+        state.totalProduct = action.payload.data.totalCount;
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(getFilteredProducts.pending, (state, action: AnyAction) => {
+      console.log("pend fillterProd", action);
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getFilteredProducts.rejected,
+      (state, action: AnyAction) => {
+        console.log("reje fillterProd", action);
+        state.isLoading = false;
+      }
+    );
   },
 });
 

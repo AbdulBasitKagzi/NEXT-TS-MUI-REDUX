@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 // import { productActions } from "../../store/product/product.slice";
 import Link from "next/link";
 import { RootState } from "../../store/store";
@@ -18,6 +19,8 @@ import { addProductToCart } from "../../store/cart/cart.slice";
 import { useTheme } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DescriptionAlerts from "../Alert";
+import { getFilteredProducts } from "@/store/product/product.thunk";
+import Loader from "../Loader";
 
 interface data {
   id: number;
@@ -33,22 +36,41 @@ interface filterGridProps {
     anchor: "bottom",
     open: boolean
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+  setFilterQuery: React.Dispatch<
+    React.SetStateAction<{
+      gender: string | string[] | undefined;
+      brands: Array<number>;
+      categories: Array<number>;
+      sizes: Array<number> | null;
+      priceRange: { min: string; max: string };
+      page: number;
+    }>
+  >;
 }
 
 const FilterGrid: React.FC<filterGridProps> = ({
   foundGender,
-
   toggleDrawer,
+  setCurrentPage,
+  currentPage,
+  setFilterQuery,
 }) => {
   const theme = useTheme();
-  const { filter } = useSelector((state: RootState) => state.product);
+  const { filteredProducts, totalProduct, isLoading } = useSelector(
+    (state: RootState) => state.product
+  );
   const { cartProducts, added } = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch<any>();
 
-  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [totalPage, setTotalPage] = useState<number>();
   let postPerPage: number = 9;
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentposts, setCurrentPosts] = useState<productProps[]>(filter);
+  // const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentposts, setCurrentPosts] =
+    useState<productProps[]>(filteredProducts);
   const [save, setSave] = useState<string>();
   const [open, setOpen] = useState<boolean>(false);
   const [openUp, setOpenUp] = useState<boolean>(false);
@@ -60,16 +82,18 @@ const FilterGrid: React.FC<filterGridProps> = ({
   }, []);
 
   useEffect(() => {
-    const page = Math.ceil(filter.length / postPerPage);
+    const page = Math.ceil(totalProduct / postPerPage);
     setTotalPage(page);
-  }, [filter, postPerPage]);
+  }, [filteredProducts, postPerPage, totalProduct]);
 
   useEffect(() => {
-    const indexOfLastPost = currentPage * postPerPage;
-    const indexOfFirstPost = indexOfLastPost - postPerPage;
-    filter.length !== 0 &&
-      setCurrentPosts(filter.slice(indexOfFirstPost, indexOfLastPost));
-  }, [currentPage, filter]);
+    // const indexOfLastPost = currentPage * postPerPage;
+    // const indexOfFirstPost = indexOfLastPost - postPerPage;
+    // filteredProducts.length !== 0 &&
+    //   setCurrentPosts(
+    //     filteredProducts.slice(indexOfFirstPost, indexOfLastPost)
+    //   );
+  }, [currentPage, filteredProducts]);
 
   useEffect(() => {
     setOpenUp(added);
@@ -123,7 +147,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
             color: theme.palette.warning.light,
           }}
         >
-          {filter.length} results
+          {totalProduct} results
         </Typography>
       </Box>
 
@@ -148,8 +172,10 @@ const FilterGrid: React.FC<filterGridProps> = ({
         {open && <WarningModel open={open} setOpen={setOpen} />}
 
         <Grid container spacing={4}>
-          {filter.length !== 0 ? (
-            currentposts.map((arr, index) => (
+          {isLoading ? (
+            <Loader />
+          ) : filteredProducts.length !== 0 ? (
+            filteredProducts.map((arr, index) => (
               <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
                 <Link
                   href={`/product/singleProduct/${arr.slug}`}
@@ -182,7 +208,11 @@ const FilterGrid: React.FC<filterGridProps> = ({
                             <Box key={image.id}>
                               <img
                                 className="product_image"
-                                src={image.productImage && image.productImage}
+                                src={
+                                  image.productImage &&
+                                  process.env.NEXT_PUBLIC_IMAGE_URL +
+                                    image.productImage
+                                }
                                 alt={image.productImage}
                                 style={{ width: "100%", height: "300px" }}
                               />
@@ -244,7 +274,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
                           e.stopPropagation();
                           e.preventDefault();
                           if (save) {
-                            dispatch(addProductToCart(arr));
+                            // dispatch(addProductToCart(arr));
                           } else {
                             setOpen(true);
                           }
@@ -292,7 +322,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
           )}
         </Grid>
 
-        {filter.length !== 0 && (
+        {filteredProducts.length !== 0 && (
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 10 }}>
             <Pagination
               sx={{
@@ -311,6 +341,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
               shape="rounded"
               onChange={(event: React.ChangeEvent<unknown>, page: number) => {
                 setCurrentPage(page);
+                setFilterQuery((prev) => ({ ...prev, page: page }));
               }}
             />
           </Box>

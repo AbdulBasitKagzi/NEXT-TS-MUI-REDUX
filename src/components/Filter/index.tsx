@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 // import { productActions } from "../../store/product/product.slice";
 // import { filterProducts } from "@/store/product/product.slice";
@@ -22,22 +23,24 @@ import Slider from "@mui/material/Slider";
 import { useTheme } from "@mui/material";
 
 import SwipeableTemporaryDrawer from "../FilterProductDrawer/index";
+import { getFilteredProducts } from "@/store/product/product.thunk";
 
 interface filterProps {
   filterQuery: {
-    gender: number;
+    gender: string | string[] | undefined;
     brands: Array<number>;
     categories: Array<number> | null;
     sizes: Array<number> | null;
-    priceRange: { min: number; max: number };
+    priceRange: { min: string; max: string };
   };
   setFilterQuery: React.Dispatch<
     React.SetStateAction<{
-      gender: number;
+      gender: string | string[] | undefined;
       brands: Array<number>;
-      categories: Array<number> | null;
+      categories: Array<number>;
       sizes: Array<number> | null;
-      priceRange: { min: number; max: number };
+      priceRange: { min: string; max: string };
+      page: number;
     }>
   >;
 
@@ -48,6 +51,7 @@ interface filterProps {
     anchor: "bottom",
     open: boolean
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  currentPage: number;
 }
 
 export default function FilterSlider({
@@ -55,14 +59,16 @@ export default function FilterSlider({
   setFilterQuery,
   state,
   toggleDrawer,
+  currentPage,
 }: filterProps): JSX.Element {
   const theme = useTheme();
   const [min_max, setMin_Max] = useState<Array<number>>([
-    filterQuery.priceRange.min,
-    filterQuery.priceRange.max,
+    +filterQuery.priceRange.min,
+    +filterQuery.priceRange.max,
   ]);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
+  const router = useRouter();
 
   const handleBrandFilter = (
     value: number,
@@ -168,17 +174,25 @@ export default function FilterSlider({
     }
   };
 
+  // useEffect(() => {
+  //   dispatch(
+  //     getFilteredProducts({
+  //       gender: router.query.gender,
+  //       brand: filterQuery.brands,
+  //       page: currentPage,
+  //     })
+  //   );
+  // }, [filterQuery]);
+
   useEffect(() => {
-    if (filterQuery.gender !== 0) {
-      // dispatch(filterProducts(filterQuery));
-      setMin_Max([filterQuery.priceRange.min, filterQuery.priceRange.max]);
-    }
+    // dispatch(filterProducts(filterQuery));
+    setMin_Max([+filterQuery.priceRange.min, +filterQuery.priceRange.max]);
   }, [filterQuery, dispatch]);
 
   const setPriceRange = (value: Array<number>) => {
     setFilterQuery((prev) => ({
       ...prev,
-      priceRange: { min: value[0], max: value[1] },
+      priceRange: { min: value[0].toString(), max: value[1].toString() },
     }));
   };
 
@@ -300,6 +314,13 @@ export default function FilterSlider({
                       (e.target as unknown as { checked: boolean }).checked,
                       brand.slug
                     );
+                    // dispatch(
+                    //   getFilteredProducts({
+                    //     gender: router.query.gender,
+                    //     page: currentPage,
+                    //     brand: brand.id,
+                    //   })
+                    // );
                   }}
                   htmlFor="my-checkbox"
                 />

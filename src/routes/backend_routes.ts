@@ -12,6 +12,7 @@ export const backend_routes = {
   product: {
     get_all_products: process.env.NEXT_PUBLIC_URL + "/api/products",
     get_product: process.env.NEXT_PUBLIC_URL + "/api/product",
+    get_filtered_products: process.env.NEXT_PUBLIC_URL + "/api/filter/product",
   },
 
   cart: {
