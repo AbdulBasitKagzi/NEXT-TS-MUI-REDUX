@@ -1,11 +1,4 @@
-import {
-  brandProps,
-  categoryProps,
-  colors,
-  genderProps,
-  productProps,
-  sizes,
-} from "../product/product.types";
+import { productProps } from "../product/product.types";
 
 export interface cartProducts {
   id: number;

@@ -15,12 +15,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
-import { addProductToCart } from "../../store/cart/cart.slice";
 import { useTheme } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DescriptionAlerts from "../Alert";
-import { getFilteredProducts } from "@/store/product/product.thunk";
 import Loader from "../Loader";
+import { addToCart } from "@/store/cart/cart.thunk";
 
 interface data {
   id: number;
@@ -64,11 +63,9 @@ const FilterGrid: React.FC<filterGridProps> = ({
   const { cartProducts, added } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<any>();
 
-  const router = useRouter();
-
   const [totalPage, setTotalPage] = useState<number>();
   let postPerPage: number = 9;
-  // const [currentPage, setCurrentPage] = useState<number>(1);
+
   const [currentposts, setCurrentPosts] =
     useState<productProps[]>(filteredProducts);
   const [save, setSave] = useState<string>();
@@ -77,7 +74,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      setSave(localStorage.getItem("isAuth") || "");
+      setSave(localStorage.getItem("token") || "");
     }
   }, []);
 
@@ -85,19 +82,6 @@ const FilterGrid: React.FC<filterGridProps> = ({
     const page = Math.ceil(totalProduct / postPerPage);
     setTotalPage(page);
   }, [filteredProducts, postPerPage, totalProduct]);
-
-  useEffect(() => {
-    // const indexOfLastPost = currentPage * postPerPage;
-    // const indexOfFirstPost = indexOfLastPost - postPerPage;
-    // filteredProducts.length !== 0 &&
-    //   setCurrentPosts(
-    //     filteredProducts.slice(indexOfFirstPost, indexOfLastPost)
-    //   );
-  }, [currentPage, filteredProducts]);
-
-  useEffect(() => {
-    setOpenUp(added);
-  }, [cartProducts]);
 
   return (
     <Box>
@@ -157,12 +141,12 @@ const FilterGrid: React.FC<filterGridProps> = ({
           marginInline: "25px",
         }}
       >
-        {openUp && (
+        {added && (
           <DescriptionAlerts
             type="success"
             title="Success"
             message="Product successfully added to cart"
-            openUp={openUp}
+            openUp={added}
             setOpenUp={setOpenUp}
             closeDuration={2000}
             backgroundColor="#4caf50"
@@ -178,7 +162,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
             filteredProducts.map((arr, index) => (
               <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
                 <Link
-                  href={`/product/singleProduct/${arr.slug}`}
+                  href={`/product/singleProduct/${arr.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Box
@@ -186,19 +170,13 @@ const FilterGrid: React.FC<filterGridProps> = ({
                     sx={{
                       position: "relative",
                       border: 1,
-                      // display: "flex",
-                      // flexDirection: "column",
-                      // justifyContent: "space-between",
-                      height: "100%",
+                      // height: "100%",
                       borderColor: "#E5E7EB",
                       width: {
-                        sm: currentposts.length === 1 ? "300px" : "100%",
+                        sm: filteredProducts.length === 1 ? "300px" : "100%",
                         xs: "100%",
                       },
                       cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      // dispatch(productActions.selectedProduct(arr));
                     }}
                   >
                     <Box>
@@ -214,7 +192,11 @@ const FilterGrid: React.FC<filterGridProps> = ({
                                     image.productImage
                                 }
                                 alt={image.productImage}
-                                style={{ width: "100%", height: "300px" }}
+                                style={{
+                                  width: "100%",
+                                  height: "300px",
+                                  objectFit: "none",
+                                }}
                               />
                             </Box>
                           );
@@ -236,7 +218,6 @@ const FilterGrid: React.FC<filterGridProps> = ({
                       sx={{
                         display: "flex",
                         textAlign: "left",
-
                         justifyContent: "space-between",
                       }}
                     >
@@ -274,7 +255,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
                           e.stopPropagation();
                           e.preventDefault();
                           if (save) {
-                            // dispatch(addProductToCart(arr));
+                            dispatch(addToCart(arr));
                           } else {
                             setOpen(true);
                           }

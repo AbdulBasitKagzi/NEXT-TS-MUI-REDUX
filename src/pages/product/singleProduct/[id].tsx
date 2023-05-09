@@ -2,20 +2,16 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../../layout";
 import { RootState } from "../../../store/store";
-import { sizeFilter, colorLists } from "../../../data/Constants";
+
 import DescriptionAlerts from "../../../components/Alert/index";
 import { useRouter } from "next/router";
 import { getProduct } from "@/store/product/product.thunk";
-import { addColor, addSize } from "@/store/product/product.slice";
 
-import Image from "next/image";
-
-import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 
 // mui imports
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import WarningModel from "../../../components/WarningModel";
 
 import ProductImageSlider from "@/sections/ProductImageSlider";
@@ -26,7 +22,7 @@ const ItemDetailView: React.FC = () => {
   const dispatch = useDispatch<any>();
 
   //   const params = useParams();
-  const { selectedProduct } = useSelector((state: RootState) => state.product);
+
   const { cartProducts, added, message } = useSelector(
     (state: RootState) => state.cart
   );
@@ -46,10 +42,6 @@ const ItemDetailView: React.FC = () => {
       dispatch(getProduct(router.query.id));
     }
   }, [dispatch, router.isReady]);
-
-  useEffect(() => {
-    setOpenUp(added);
-  }, [cartProducts]);
 
   return (
     <div>

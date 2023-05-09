@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { gender } from "@/data/Constants";
 
 import Layout from "../../layout";
-// import { useParams, useLocation } from 'react-router-dom';
+
 import FilterSlider from "../../components/Filter";
 import FilterGrid from "../../components/FilterGrid";
-import { gender, brandFilter, categoriesFilter } from "../../data/Constants";
 
 // mui imports
 import { Box } from "@mui/system";
@@ -20,7 +20,6 @@ export const CategoryDetail: React.FC = () => {
 
   const router = useRouter();
 
-  const { routeValue } = useSelector((state: RootState) => state.user);
   const [foundGender, setFoundGender] = useState<data>();
   const [foundBrand, setFoundBrand] = useState<data>();
   const [foundCategory, setFoundCategory] = useState<data>();
@@ -32,10 +31,9 @@ export const CategoryDetail: React.FC = () => {
     priceRange: { min: "0", max: "1000" },
     page: 1,
   });
+  let g;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const dispatch = useDispatch<any>();
-
-  console.log("router", router);
 
   useEffect(() => {
     if (router.isReady) {
@@ -44,6 +42,9 @@ export const CategoryDetail: React.FC = () => {
         gender: router.query.gender,
         brands: router.query.brands ? [+router.query.brands] : [],
         categories: router.query.categories ? [+router.query.categories] : [],
+        sizes: [],
+        priceRange: { min: "0", max: "1000" },
+        page: 1,
       }));
     }
   }, [router.isReady, router.query]);
@@ -54,52 +55,15 @@ export const CategoryDetail: React.FC = () => {
     }
   }, [router.isReady, filterQuery]);
 
-  // useEffect(() => {
-  //   setFilterQuery((prev) => ({
-  //     ...prev,
-  //     brands: [],
-  //     categories: [],
-  //   }));
+  useEffect(() => {
+    if (router.isReady) {
+      g = gender.filter((gender) => {
+        if (router.query.gender) return gender.id === +router.query.gender;
+      });
+    }
+  }, [router.isReady, router.query]);
 
-  //   setFoundGender(
-  //     gender.find((gender) => gender.slug === router.query.gender)
-  //   );
-  //   setFoundBrand(
-  //     brandFilter.find((brand) => brand.slug === router.query.brand)
-  //   );
-  //   setFoundCategory(
-  //     categoriesFilter?.find(
-  //       (category) => category?.slug === router.query.categories
-  //     )
-  //   );
-  // }, [router.query]);
-
-  // useEffect(() => {
-  //   if (foundGender?.id) {
-  //     setFilterQuery((prev) => ({
-  //       ...prev,
-  //       gender: foundGender?.id,
-  //     }));
-  //   }
-  // }, [foundGender, foundBrand, foundCategory]);
-
-  // useEffect(() => {
-  //   if (foundBrand?.id) {
-  //     setFilterQuery((prev) => ({
-  //       ...prev,
-  //       brands: [foundBrand.id],
-  //     }));
-  //   }
-  // }, [foundGender, foundBrand, foundCategory]);
-
-  // useEffect(() => {
-  //   if (foundCategory?.id) {
-  //     setFilterQuery((prev) => ({
-  //       ...prev,
-  //       categories: [foundCategory.id],
-  //     }));
-  //   }
-  // }, [foundCategory]);
+  console.log("g", g);
 
   const [state, setState] = useState({
     bottom: false,

@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 // mui imports
 import {
@@ -330,28 +329,13 @@ const Footer: React.FC = () => {
             mt: { xs: 10 },
             display: "flex",
             justifyContent: "center",
+            gap: 6,
           }}
         >
-          <Image
-            src={assets.icons.facebook}
-            alt="facebook"
-            style={{ marginRight: "48px" }}
-          />
-          <Image
-            src={assets.icons.instagram}
-            alt="instagram"
-            style={{ marginRight: "48px" }}
-          />
-          <Image
-            src={assets.icons.youtube}
-            alt="youtube"
-            style={{ marginRight: "48px" }}
-          />
-          <Image
-            src={assets.icons.twitter}
-            alt="twitter"
-            style={{ marginRight: "48px" }}
-          />
+          <img src={assets.icons.facebook.src} alt="facebook" />
+          <img src={assets.icons.instagram.src} alt="instagram" />
+          <img src={assets.icons.youtube.src} alt="youtube" />
+          <img src={assets.icons.twitter.src} alt="twitter" />
         </Box>
         <Box>
           <Divider variant="middle" />

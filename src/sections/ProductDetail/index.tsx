@@ -6,8 +6,6 @@ import { Box, Button, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { RootState } from "@/store/store";
 
-import { addProductToCart } from "@/store/cart/cart.slice";
-import { colorLists, sizeFilter } from "@/data/Constants";
 import { addColor, addSize } from "@/store/product/product.slice";
 import { addToCart } from "@/store/cart/cart.thunk";
 
@@ -25,7 +23,7 @@ interface productDetailProps {
 function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
   const theme = useTheme();
   const { selectedProduct } = useSelector((state: RootState) => state.product);
-  const { cartProducts, added } = useSelector((state: RootState) => state.cart);
+
   const dispatch = useDispatch<any>();
   const router = useRouter();
 
@@ -37,45 +35,6 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
     "Brand",
     "Delivery",
   ]);
-
-  // const [sizes, setSizes] = useState<
-  //   {
-  //     id: number;
-  //     value: string;
-  //     slug: string;
-  //   }[]
-  // >();
-  // const [color, setColor] = useState<
-  //   {
-  //     id: number;
-  //     name: string;
-  //     haxValue: string;
-  //   }[]
-  // >();
-
-  // useEffect(() => {
-  //   let fitleredata;
-  //   if (selectedProduct?.size) {
-  //     fitleredata = selectedProduct?.size.map((data) => {
-  //       return sizeFilter.filter((fill) => fill.id === data);
-  //     });
-  //   }
-  //   setSizes(fitleredata?.flatMap((i) => i));
-  // }, [selectedProduct]);
-
-  // useEffect(() => {
-  //   if (selectedProduct?.color) {
-  //     let filteredColor: { id: number; name: string; haxValue: string }[] = [];
-  //     selectedProduct?.color.map((col) => {
-  //       return colorLists.map((color) => {
-  //         if (color.id === col) {
-  //           return filteredColor.push(color);
-  //         }
-  //       });
-  //     });
-  //     setColor(filteredColor);
-  //   }
-  // }, [selectedProduct]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -130,9 +89,6 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
     return <Box sx={{ display: "flex" }}>{result}</Box>;
   };
 
-  useEffect(() => {
-    console.log("selected", selectedProduct);
-  }, [selectedProduct]);
   return (
     <Box
       sx={{
@@ -271,9 +227,10 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                 color: theme.palette.secondary.dark,
               }}
             >
-              Dress with tulle and collar Peter Pan from REDValentino (Red
-              Valentino). Peter Pan collar, tulle panels, sleeveless model,
-              concealed back zipper and pleated skirt. Black colour.
+              Dress with tulle and collar Peter Pan from REDValentino (
+              {selectedProduct?.productName}). Peter Pan collar, tulle panels,
+              sleeveless model, concealed back zipper and pleated skirt. Black
+              colour.
             </Typography>
           </TabPanel>
         ))}
@@ -308,11 +265,10 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
               gap: 2,
             }}
           >
-            {selectedProduct?.productSizes?.map((size, index: number) =>
+            {selectedProduct?.sizes?.map((size, index: number) =>
               sizeValue === index ? (
                 <Box
-                  // label={size.slug}
-                  key={size.size.id}
+                  key={size.id}
                   sx={{
                     width: "81px",
                     height: "45px",
@@ -330,17 +286,17 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                   onClick={(event) => {
                     dispatch(
                       addSize({
-                        selectedSize: size.size.id,
+                        selectedSize: size.id,
                       })
                     );
                     handleSizeChange(event, index);
                   }}
                 >
-                  <Typography>{size.size.slug}</Typography>
+                  <Typography>{size.slug}</Typography>
                 </Box>
               ) : (
                 <Box
-                  key={size.size.id}
+                  key={size.id}
                   sx={{
                     width: "81px",
                     height: "45px",
@@ -354,13 +310,13 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                   onClick={(event) => {
                     dispatch(
                       addSize({
-                        selectedSize: size.size.id,
+                        selectedSize: size.id,
                       })
                     );
                     handleSizeChange(event, index);
                   }}
                 >
-                  <Typography>{size.size.slug}</Typography>
+                  <Typography>{size.slug}</Typography>
                 </Box>
               )
             )}
@@ -392,28 +348,26 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                 gap: 2,
               }}
             >
-              {selectedProduct?.productColors?.map((col, index: number) =>
+              {selectedProduct?.colors?.map((col, index: number) =>
                 colorValue === index ? (
-                  <>
-                    <Box
-                      key={index}
-                      sx={{
-                        width: "50px",
-                        height: "50px",
-                        background: `${col.color.hax_value}`,
-                        cursor: "pointer",
-                        borderRadius: 2,
-                      }}
-                      onClick={(event) => {
-                        dispatch(
-                          addColor({
-                            selectedColor: col.color.id,
-                          })
-                        );
-                        handleColorChange(event, index);
-                      }}
-                    />
-                  </>
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "50px",
+                      height: "50px",
+                      background: `${col.hax_value}`,
+                      cursor: "pointer",
+                      borderRadius: 2,
+                    }}
+                    onClick={(event) => {
+                      dispatch(
+                        addColor({
+                          selectedColor: col.id,
+                        })
+                      );
+                      handleColorChange(event, index);
+                    }}
+                  />
                 ) : (
                   <Box
                     key={index}
@@ -421,15 +375,15 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
                       width: "35px",
                       height: "35px",
                       border: 1,
-                      background: `${col.color.hax_value}`,
-                      borderColor: `${col.color.hax_value}`,
+                      background: `${col.hax_value}`,
+                      borderColor: `${col.hax_value}`,
                       cursor: "pointer",
                       borderRadius: 2,
                     }}
                     onClick={(event) => {
                       dispatch(
                         addColor({
-                          selectedColor: col.color.id,
+                          selectedColor: col.id,
                         })
                       );
                       handleColorChange(event, index);
@@ -505,7 +459,6 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
             if (!save) {
               setOpen(true);
             } else {
-              // selectedProduct && dispatch(addProductToCart(selectedProduct));
               router.push("/shipping");
             }
           }}
@@ -532,7 +485,6 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
               setOpen(true);
             } else {
               selectedProduct && dispatch(addToCart(selectedProduct));
-              // dispatch(cartActions.addProductToCart(product));
             }
           }}
         >

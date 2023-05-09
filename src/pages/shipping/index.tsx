@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { calculateSubTotal } from "../../store/cart/cart.slice";
 import { RootState } from "../../store/store";
-
+import { useRouter } from "next/router";
 import { vat_tax, shipping } from "../../data/Constants";
 import Layout from "../../layout";
 import { user } from "../../forms/userInformation/userInformation.types";
 import { paymentInformation } from "../../forms/userPaymentInformation/userPaymentInformation";
-import { useRouter } from "next/router";
 
 // mui imports
 
@@ -15,8 +14,6 @@ import { Box } from "@mui/material";
 
 // for date and time
 import dayjs from "dayjs";
-import DescriptionAlerts from "../../components/Alert";
-
 import UserInformation from "../../forms/userInformation";
 import UserPaymentInformation from "../../forms/userPaymentInformation";
 import ConfirmationPage from "../../sections/ConfirmationPage/index";
@@ -24,14 +21,13 @@ import ProductCard from "../../sections/ProductCard";
 import StepperComponent from "@/components/Stepper";
 
 const ShippingPage: React.FC = () => {
-  const router = useRouter();
   const steps = ["Shipping", "Billing", "Confirmation"];
+  const router = useRouter();
   const { cartProducts, subTotal, page } = useSelector(
     (state: RootState) => state.cart
   );
   const dispatch = useDispatch();
 
-  // const [page, setPage] = useState<number>(1);
   const [date_time, setDate_Time] = useState<any>(dayjs());
   const [selectedValue, setSelectedValue] = useState("creditCard");
   const [userInformation, setUserInformation] = useState<user>({
@@ -54,42 +50,12 @@ const ShippingPage: React.FC = () => {
       radio_buttons: selectedValue,
     });
 
-  const [openUp, setOpenUp] = useState<boolean>(false);
-  const [alert, setAlert] = useState<{
-    type: string;
-    title: string;
-    message: string;
-  }>({
-    type: "",
-    title: "",
-    message: "",
-  });
-
-  // useEffect(() => {
-  //   cartProducts.length === 0 && router.push("/");
-  // }, [cartProducts.length]);
-
   useEffect(() => {
     dispatch(calculateSubTotal());
   }, [cartProducts]);
 
-  useEffect(() => {
-    console.log("user", userInformation);
-  }, [userInformation]);
-
   return (
     <Box sx={{ maxWidth: "1600px", mx: "auto" }}>
-      {openUp && (
-        <DescriptionAlerts
-          openUp={openUp}
-          setOpenUp={setOpenUp}
-          type={alert.type}
-          title={alert.title}
-          message={alert.message}
-          closeDuration={2000}
-          backgroundColor="#cc0000"
-        />
-      )}
       <Layout>
         <Box sx={{ display: "flex", justifyContent: "start" }}>
           <Box

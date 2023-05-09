@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { FC } from "react";
-// import { productActions } from '../../store/product/product.slice';
 import { filterProduct } from "@/store/product/product.slice";
 
 // mui imports

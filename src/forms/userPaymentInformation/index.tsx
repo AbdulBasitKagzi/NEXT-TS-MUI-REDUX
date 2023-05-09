@@ -45,7 +45,7 @@ function UserPaymentInformation({
       radio_buttons: event.target.value,
     }));
   };
-  const [go, setGo] = useState<boolean>(false);
+
   const dispatch = useDispatch<any>();
 
   const formik = useFormik({
@@ -103,14 +103,16 @@ function UserPaymentInformation({
           <Box
             sx={{
               display: "flex",
-              gap: { md: 3, sm: 0, xs: 1 },
+              gap: { md: 2, sm: 0, xs: 1 },
               justifyContent: { md: "start", xs: "center" },
             }}
           >
             <Box
               sx={{
-                display: { sm: "flex", xs: "block" },
-                gap: { md: 3, xs: 0 },
+                display: { sm: "flex", xs: "flex" },
+                flexWrap: { xs: "wrap", sm: "nowrap" },
+                alignItems: "center",
+                gap: { sm: 1, xs: 0 },
               }}
             >
               <Radio
@@ -134,8 +136,11 @@ function UserPaymentInformation({
             </Box>
             <Box
               sx={{
-                display: { sm: "flex", xs: "block" },
-                gap: { md: 3, xs: 0 },
+                display: { sm: "flex", xs: "flex" },
+                flexWrap: { xs: "wrap", sm: "nowrap" },
+
+                alignItems: "center",
+                gap: { sm: 1, xs: 0 },
               }}
             >
               <Radio
@@ -160,8 +165,10 @@ function UserPaymentInformation({
             </Box>
             <Box
               sx={{
-                display: { sm: "flex", xs: "block" },
-                gap: { md: 3, xs: 0 },
+                display: { sm: "flex", xs: "flex" },
+                flexWrap: { xs: "wrap", sm: "nowrap" },
+                alignItems: "center",
+                gap: { sm: 1, xs: 0 },
               }}
             >
               <Radio

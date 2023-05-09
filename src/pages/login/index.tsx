@@ -50,12 +50,9 @@ export default function SignIn() {
     email: string;
     password: string;
   }>();
-  let empty: boolean | undefined = undefined;
 
   const dispatch = useDispatch<any>();
-  const { User, error, message } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { error, message } = useSelector((state: RootState) => state.user);
 
   const formik = useFormik({
     initialValues: {
@@ -82,10 +79,6 @@ export default function SignIn() {
   useEffect(() => {
     if (userCredentials) dispatch(login(userCredentials));
   }, [userCredentials, dispatch]);
-
-  // useEffect(() => {
-  //   if (userCredentials) router.push("/");
-  // }, [User]);
 
   return (
     <GuestGuard>

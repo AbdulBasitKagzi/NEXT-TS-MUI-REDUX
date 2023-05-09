@@ -8,10 +8,9 @@ export interface SelectedProductProps {
   gender: genderProps;
   category: categoryProps;
   brand: brandProps;
-  // size: Array<number>;
-  // color: Array<number>;
-  productSizes: sizes[];
-  productColors: colors[];
+
+  sizes: sizes[];
+  colors: colors[];
   reviewRate: number;
   slug: string;
   selectedSize?: number;
@@ -21,20 +20,14 @@ export interface SelectedProductProps {
 
 export interface sizes {
   id: number;
-  size: {
-    id: number;
-    value: string;
-    slug: string;
-  };
+  value: string;
+  slug: string;
 }
 
 export interface colors {
   id: number;
-  color: {
-    id: number;
-    name: string;
-    hax_value: string;
-  };
+  name: string;
+  hax_value: string;
 }
 export interface productProps {
   id: number;
@@ -46,10 +39,11 @@ export interface productProps {
   gender: genderProps;
   category: categoryProps;
   brand: brandProps;
-  // size: Array<number>;
-  // color: Array<number>;
-  productSizes?: sizes[];
-  productColors?: colors[];
+
+  sizes: sizes[];
+  colors: colors[];
+  selectedSize?: number;
+  selectedColor?: number;
   reviewRate: number;
   slug: string;
 }

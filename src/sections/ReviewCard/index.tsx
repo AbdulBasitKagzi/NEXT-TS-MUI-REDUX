@@ -57,6 +57,7 @@ const ReviewCard: React.FC = () => {
           justifyContent: "center",
           mx: "auto",
           mt: { sm: 8, xs: 1 },
+          gap: 1,
         }}
       >
         {arr.map((arr) => (

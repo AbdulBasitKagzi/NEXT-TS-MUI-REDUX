@@ -58,12 +58,7 @@ function ProductImageSlider() {
           top: { sm: "40px" },
         }}
       >
-        <Swiper
-          // navigation={true}
-          ref={slider}
-          modules={[Navigation]}
-          className="mySwiper"
-        >
+        <Swiper ref={slider} modules={[Navigation]} className="mySwiper">
           {selectedProduct?.productImages?.map((images) => (
             <SwiperSlide className={style.swiperImage} key={images.id}>
               {image ? (
@@ -117,7 +112,6 @@ function ProductImageSlider() {
             top: { sm: "45%" },
             left: { md: "3%", sm: "-9%" },
           }}
-          // className={classes.prev_arrow}
           onClick={() => handlePrev("slider")}
         >
           <img
@@ -139,7 +133,6 @@ function ProductImageSlider() {
             top: { sm: "45%" },
             left: { md: "96%", sm: "103%" },
           }}
-          // className={classes.next_arrow}
           onClick={() => handleNext("slider")}
         >
           <img
@@ -158,7 +151,6 @@ function ProductImageSlider() {
             xl: "120px",
             md: "50px",
             sm: "45px",
-            // xs: "510px",
           },
         }}
       >
@@ -166,8 +158,6 @@ function ProductImageSlider() {
           slidesPerView={4}
           spaceBetween={10}
           ref={sliderRef}
-          // navigation={true}
-          // modules={[Navigation]}
           className={`mySwiper ${classes.position}`}
         >
           {selectedProduct?.productImages?.map((images, index: number) => (

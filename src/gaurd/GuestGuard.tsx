@@ -1,8 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { getLocalstorage } from "../utils/localstorage";
 
-// import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/router";
 import { RootState } from "@/store/store";
 

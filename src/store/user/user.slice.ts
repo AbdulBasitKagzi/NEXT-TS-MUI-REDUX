@@ -56,7 +56,7 @@ const userSlice = createSlice({
       user_shipping_detail.rejected,
       (state, action: AnyAction) => {
         console.log("reje pay", action.payload);
-        // state.message = action.payload.response.data.error.message;
+
         state.error = true;
       }
     );
@@ -64,26 +64,21 @@ const userSlice = createSlice({
       user_shipping_detail.pending,
       (state, action: AnyAction) => {
         console.log("pend pay", action.payload);
-        // state.message = action.payload.response.data.error.message;
       }
     );
-
     // adding payment detail to database
     builder.addCase(user_payment_detail.pending, (state, action: AnyAction) => {
-      // state.message = action.payload.response.data.error.message;
       state.error = false;
     });
     builder.addCase(
       user_payment_detail.fulfilled,
       (state, action: AnyAction) => {
-        // state.message = action.payload.response.data.error.message;
         console.log("action", action.payload);
       }
     );
     builder.addCase(
       user_payment_detail.rejected,
       (state, action: AnyAction) => {
-        // state.message = action.payload.response.data.error.message;
         console.log("reje", action.payload);
         state.error = true;
       }
@@ -91,17 +86,14 @@ const userSlice = createSlice({
 
     // get like products
     builder.addCase(get_like_products.fulfilled, (state, action: AnyAction) => {
-      // state.message = action.payload.response.data.error.message;
       console.log("full like product", action.payload);
       state.isLoading = false;
       state.error = false;
     });
     builder.addCase(get_like_products.pending, (state, action: AnyAction) => {
-      // state.message = action.payload.response.data.error.message;
       state.isLoading = true;
     });
     builder.addCase(get_like_products.rejected, (state, action: AnyAction) => {
-      // state.message = action.payload.response.data.error.message;
       console.log("full like product", action.payload);
       state.message = action.payload.response.data.error.message;
       console.log(state.message);

@@ -2,6 +2,7 @@ import { filterQueryTypes } from "@/pages/product/product.types";
 import { backend_routes } from "@/routes/backend_routes";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getUserCart } from "../cart/cart.thunk";
 
 export const getAllProduct = createAsyncThunk(
   "product/getAll",
@@ -29,7 +30,6 @@ export const getProduct = createAsyncThunk(
     body: string | string[] | undefined,
     { dispatch, rejectWithValue }
   ) => {
-    console.log("body", body);
     try {
       const product = await axios.get(
         `${backend_routes.product.get_product}/${body}`,
@@ -39,6 +39,7 @@ export const getProduct = createAsyncThunk(
           },
         }
       );
+      if (product.status === 200) dispatch(getUserCart());
       return product;
     } catch (error) {
       return rejectWithValue(error);
@@ -50,23 +51,24 @@ export const getFilteredProducts = createAsyncThunk(
   "product/getfilterProduct",
   async (body: filterQueryTypes, { dispatch, rejectWithValue }) => {
     try {
-      console.log("body", body);
       const filteredProducts = await axios.get(
         `${backend_routes.product.get_filtered_products}`,
         {
           params: {
             gender: body.gender,
-            page: body.page,
             brands: body.brands,
             categories: body.categories,
+            sizes: body.sizes,
             min: body.priceRange.min,
             max: body.priceRange.max,
+            page: body.page,
           },
           headers: {
             "content-type": "application/json",
           },
         }
       );
+      if (filteredProducts.status === 200) dispatch(getUserCart());
       return filteredProducts;
     } catch (error) {
       return rejectWithValue(error);

@@ -34,78 +34,6 @@ const cartSlice = createSlice({
       state.error = false;
     },
 
-    addProductToCart: (
-      state: cartSliceState,
-      action: PayloadAction<SelectedProductProps>
-    ) => {
-      // const data = state.cartProducts.find(
-      //   (product) =>
-      //     product.id === action.payload.id &&
-      //     product.selectedSize === action.payload.selectedSize &&
-      //     product.selectedColor === action.payload.selectedColor
-      // );
-      // if (data) {
-      //   const index = state.cartProducts.indexOf(data);
-      //   state.cartProducts[index].quantity++;
-      // } else {
-      // state.cartProducts = [
-      //   ...state.cartProducts,
-      //   { ...action.payload, quantity: 1, product_id: uuid() },
-      // ];
-      // }
-      // state.added = true;
-    },
-    // increment: (
-    //   state: cartSliceState,
-    //   action: PayloadAction<{ id: number }>
-    // ) => {
-    //   const data = state.cartProducts.find(
-    //     (product) => product.product_id === action.payload.id
-    //   );
-
-    //   if (data) {
-    //     const index = state.cartProducts.indexOf(data);
-    //     state.cartProducts[index].quantity++;
-    //   }
-    // },
-    // decrement: (
-    //   state: cartSliceState,
-    //   action: PayloadAction<{ id: number }>
-    // ) => {
-    //   let index: number = 0;
-    //   let temp;
-    //   let tempData;
-
-    //   temp = [...state.cartProducts].map((product) => {
-    //     if (product.product_id === action.payload.id) {
-    //       product.quantity--;
-    //       return { ...product };
-    //     } else {
-    //       return { ...product };
-    //     }
-    //   });
-
-    //   state.cartProducts = [...temp];
-
-    //   tempData = [...state.cartProducts].filter(
-    //     (product) => product.quantity !== 0
-    //   );
-    //   console.log("remaining", tempData);
-    //   state.cartProducts = [...tempData];
-    // },
-    // removeProduct: (
-    //   state: cartSliceState,
-    //   action: PayloadAction<{ id: number }>
-    // ) => {
-    //   let temp;
-    //   temp = [...state.cartProducts].filter(
-    //     (product) => product.product_id !== action.payload.id
-    //   );
-    //   state.cartProducts = [...temp];
-    // },
-    // emptyCart: (state: cartSliceState) => {
-    //   state.cartProducts = [];
-    // },
     notification: (state) => {
       state.added = false;
     },
@@ -143,7 +71,6 @@ const cartSlice = createSlice({
     });
     builder.addCase(getUserCart.rejected, (state, action: AnyAction) => {
       console.log("reje", action.payload.response);
-
       state.message = action.payload.response.data.error.message;
       state.isLoading = false;
       state.cartProducts = action.payload.response.data.error.data;
@@ -193,13 +120,8 @@ const cartSlice = createSlice({
 });
 
 export const {
-  addProductToCart,
   calculateSubTotal,
-  // decrement,
-  // emptyCart,
-  // increment,
   notification,
-  // removeProduct,
   incrementPage,
   decrementPage,
   setCartError,

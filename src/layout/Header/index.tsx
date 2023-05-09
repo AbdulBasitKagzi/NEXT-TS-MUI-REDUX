@@ -70,7 +70,7 @@ export default function DrawerAppBar(props: Props) {
 
   useEffect(() => {
     let total: number = 0;
-    if (cartProducts.length) {
+    if (cartProducts) {
       total = cartProducts.reduce((acc: number, curr: cartProducts) => {
         total = acc + curr.quantity;
         return total;
@@ -100,7 +100,7 @@ export default function DrawerAppBar(props: Props) {
                   if (item.id === 0) {
                     router.push("/");
                   } else if (item.id !== 3 && item.id !== 4) {
-                    dispatch(makeRoute(item.slug));
+                    dispatch(makeRoute(item.id));
                     setOpenModel(true);
                   } else {
                     router.push("/");
@@ -199,6 +199,7 @@ export default function DrawerAppBar(props: Props) {
               >
                 {gender.map((item) => (
                   <Link
+                    key={item.id}
                     href={item.id === 0 ? `/` : `/product?gender=${item.id}`}
                     style={{ textDecoration: "none" }}
                   >
@@ -223,8 +224,6 @@ export default function DrawerAppBar(props: Props) {
                       onClick={() => {
                         if (item.id === 0) {
                           setOpenModel(false);
-                        } else {
-                          // setSearchParams({ gender: item.slug });
                         }
                       }}
                       onMouseEnter={() => {

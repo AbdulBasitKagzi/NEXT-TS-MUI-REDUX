@@ -9,22 +9,14 @@ import { MouseEvent } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import { Checkbox, FormControlLabel, FormGroup, Slider } from "@mui/material";
 import theme from "../../theme";
+import { filterQueryTypes } from "@/pages/product/product.types";
 
 type Anchor = "bottom";
 
@@ -38,16 +30,7 @@ interface drawerProps {
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
   min_max: number[];
   setPriceRange: (value: Array<number>) => void;
-  filterQuery: {
-    gender: string | string[] | undefined;
-    brands: number[];
-    categories: number[] | null;
-    sizes: number[] | null;
-    priceRange: {
-      min: number;
-      max: number;
-    };
-  };
+  filterQuery: filterQueryTypes;
   handleSizeFilter: (value: number, isChecked: boolean) => void;
   handleCategoriesFilter: (
     value: number,
@@ -259,6 +242,11 @@ export default function SwipeableTemporaryDrawer({
               {sizeFilter.map((size) => (
                 <FormControlLabel
                   key={size.id}
+                  checked={
+                    filterQuery.sizes && filterQuery.sizes.includes(size.id)
+                      ? true
+                      : false
+                  }
                   control={
                     <Checkbox
                       color="primary"

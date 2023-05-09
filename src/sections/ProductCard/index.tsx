@@ -5,7 +5,6 @@ import {
   increment_decrement_cartProduct,
   update_cartProduct,
 } from "@/store/cart/cart.thunk";
-import Image from "next/image";
 
 import { RootState } from "@/store/store";
 
@@ -19,7 +18,7 @@ import {
 } from "@mui/material";
 import { DeleteOutlineOutlined } from "@mui/icons-material";
 import DescriptionAlerts from "@/components/Alert";
-import { colorLists, sizeFilter } from "@/data/Constants";
+import { vat_tax, shipping } from "@/data/Constants";
 import Loader from "@/components/Loader";
 
 function ProductCard(): JSX.Element {
@@ -29,34 +28,9 @@ function ProductCard(): JSX.Element {
   );
   const dispatch = useDispatch<any>();
 
-  let shipping: number = 64.0;
-  let vat_tax: number = 64.0;
-
-  const filteration = (
-    data: Array<number>,
-    array: {
-      id?: number;
-      value?: string;
-      slug?: string;
-      haxValue?: string;
-      name?: string;
-    }[]
-  ) => {
-    let filteredata;
-    filteredata = data.map((data) => {
-      return array.filter((fill) => fill.id === data);
-    });
-
-    return filteredata;
-  };
-
   useEffect(() => {
     dispatch(getUserCart());
   }, []);
-
-  useEffect(() => {
-    console.log("cartProds", cartProducts);
-  }, [cartProducts]);
 
   return (
     <>
@@ -106,7 +80,7 @@ function ProductCard(): JSX.Element {
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        mx: 4,
+                        mx: { sm: 4, xs: 2 },
                         my: 3,
                       }}
                     >
@@ -140,7 +114,7 @@ function ProductCard(): JSX.Element {
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
                         my: 3,
                       }}
                     >
@@ -269,7 +243,7 @@ function ProductCard(): JSX.Element {
                           xs: "space-between",
                         },
                         pb: 2,
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
                       }}
                     >
                       <Box sx={{ display: "flex", mt: 2, gap: 2 }}>
@@ -282,9 +256,9 @@ function ProductCard(): JSX.Element {
                             <Select
                               sx={{
                                 width: {
-                                  md: "137px",
-                                  sm: "100px",
-                                  xs: "100px",
+                                  md: "100px",
+                                  sm: "70px",
+                                  xs: "70px",
                                 },
                               }}
                               labelId="demo-simple-select-label"
@@ -301,15 +275,13 @@ function ProductCard(): JSX.Element {
                                 );
                               }}
                             >
-                              {product.productSizes.map(
-                                ({ size }, index: number) => {
-                                  return (
-                                    <MenuItem value={size.id}>
-                                      {size.slug}
-                                    </MenuItem>
-                                  );
-                                }
-                              )}
+                              {product.sizes?.map((size, index: number) => {
+                                return (
+                                  <MenuItem value={size.id}>
+                                    {size.slug}
+                                  </MenuItem>
+                                );
+                              })}
                             </Select>
                           </>
                         </Box>
@@ -318,7 +290,7 @@ function ProductCard(): JSX.Element {
                             Color
                           </Typography>
                           <Select
-                            sx={{ width: { sm: "75px", xs: "50px" } }}
+                            sx={{ width: { sm: "60px", xs: "50px" } }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={color}
@@ -332,24 +304,18 @@ function ProductCard(): JSX.Element {
                               );
                             }}
                           >
-                            {product.productColors.map(
-                              ({ color }, index: number) => {
-                                return (
-                                  <MenuItem value={color.id}>
-                                    {color.name}
-                                  </MenuItem>
-                                );
-                              }
-                            )}
+                            {product.colors?.map((color, index: number) => {
+                              return (
+                                <MenuItem value={color.id}>
+                                  {color.name}
+                                </MenuItem>
+                              );
+                            })}
                           </Select>
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          mr: {
-                            sm: 0,
-                            xs: "20px",
-                          },
                           mt: 7,
                         }}
                       >
@@ -401,9 +367,9 @@ function ProductCard(): JSX.Element {
                           xs: "16px",
                         },
                         color: theme.palette.info.main,
-                        // py: 2,
-                        // pl: 5,
-                        mx: 4,
+
+                        mx: { md: 4, xs: 2 },
+
                         my: 2,
                         wordBreak: "break-all",
                       }}
@@ -421,9 +387,8 @@ function ProductCard(): JSX.Element {
                           xs: "16px",
                         },
                         color: theme.palette.info.main,
-                        // py: 2,
-                        // pr: 5,
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
+
                         my: 2,
                         wordBreak: "break-all",
                       }}
@@ -445,13 +410,11 @@ function ProductCard(): JSX.Element {
                         fontWeight: 800,
                         fontSize: {
                           md: "18px",
-
                           xs: "15px",
                         },
                         color: theme.palette.info.main,
-                        // py: 2,
-                        // pl: 5,
-                        mx: 4,
+
+                        mx: { md: 4, xs: 2 },
                         my: 2,
                         wordBreak: "break-all",
                       }}
@@ -471,7 +434,7 @@ function ProductCard(): JSX.Element {
                         color: theme.palette.info.main,
                         // py: 2,
                         // pr: 5,
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
                         my: 2,
                         wordBreak: "break-all",
                       }}
@@ -498,7 +461,7 @@ function ProductCard(): JSX.Element {
                         color: theme.palette.info.main,
                         // py: 2,
                         // pl: 5,
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
                         my: 2,
                         wordBreak: "break-all",
                       }}
@@ -518,7 +481,8 @@ function ProductCard(): JSX.Element {
                         color: theme.palette.info.main,
                         // py: 2,
                         // pr: 5,
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
+
                         my: 2,
                         wordBreak: "break-all",
                       }}
@@ -546,7 +510,8 @@ function ProductCard(): JSX.Element {
                         color: theme.palette.info.main,
                         // py: 2,
                         // pl: 5,
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
+
                         my: 2,
                         wordBreak: "break-all",
                       }}
@@ -566,7 +531,8 @@ function ProductCard(): JSX.Element {
                         color: theme.palette.info.main,
                         // py: 2,
                         // pr: { md: '16px', xs: '24px' },
-                        mx: 4,
+                        mx: { md: 4, xs: 2 },
+
                         my: 2,
                         wordBreak: "break-all",
                       }}

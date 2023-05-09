@@ -1,8 +1,6 @@
 import { useRef, useCallback } from "react";
-// import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-// import { productActions } from "../../store/product/product.slice";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,28 +19,10 @@ import { useTheme } from "@mui/material";
 import { productProps } from "@/store/product/product.types";
 
 interface dealsProps {
-  // bestDeals: {
-  //   id: number;
-  //   productName: string;
-  //   productImages: { id: number; productImage: string | undefined }[];
-  //   productDescription: Array<string>;
-  //   productOriginalPrice: number;
-  //   productCurrentPrice: number;
-  //   gender: number;
-  //   category: number;
-  //   brand: number;
-  //   size: Array<number>;
-  //   color: Array<number>;
-  //   reviewRate: number;
-  //   slug: string;
-  // }[];
   bestDeals: productProps[];
   title: string;
 }
 const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-
   const sliderRef = useRef<SwiperRef>(null);
 
   const handleNext = useCallback(() => {
@@ -117,6 +97,7 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                         style={{ textDecoration: "none" }}
                       >
                         <Box
+                          key={deals.id}
                           className="li"
                           sx={{
                             display: "flex",
@@ -132,10 +113,6 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                               xs: "30px",
                             },
                             cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            // dispatch(productActions.selectedProduct(deals));
-                            // router.push(`/product/singleProduct/${deals.id}`);
                           }}
                         >
                           {deals.productImages?.map((image, index: number) => {
@@ -291,7 +268,6 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
             top: { xl: "28%", lg: "26%", xs: "27%" },
             left: { lg: 0, md: "-2.4%", sm: "-4%", xs: "-7%" },
           }}
-          // className={classes.prev_arrow}
           onClick={handlePrev}
         >
           <Image
@@ -304,14 +280,7 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
           sx={{
             position: "absolute",
             zIndex: 2,
-            display: {
-              xl: "block",
-              lg: "block",
-              md: "block",
-              sm: "block",
-              xs: "block",
-            },
-
+            display: "block",
             top: { xl: "28%", lg: "26%", xs: "27%" },
             left: { lg: "98%", sm: "100%", xs: "103%" },
           }}

@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-
-// import { productActions } from "../../store/product/product.slice";
-// import { filterProducts } from "@/store/product/product.slice";
 import { MouseEvent } from "react";
 
 import {
@@ -23,16 +20,11 @@ import Slider from "@mui/material/Slider";
 import { useTheme } from "@mui/material";
 
 import SwipeableTemporaryDrawer from "../FilterProductDrawer/index";
-import { getFilteredProducts } from "@/store/product/product.thunk";
+
+import { filterQueryTypes } from "@/pages/product/product.types";
 
 interface filterProps {
-  filterQuery: {
-    gender: string | string[] | undefined;
-    brands: Array<number>;
-    categories: Array<number> | null;
-    sizes: Array<number> | null;
-    priceRange: { min: string; max: string };
-  };
+  filterQuery: filterQueryTypes;
   setFilterQuery: React.Dispatch<
     React.SetStateAction<{
       gender: string | string[] | undefined;
@@ -68,13 +60,8 @@ export default function FilterSlider({
   ]);
 
   const dispatch = useDispatch<any>();
-  const router = useRouter();
 
-  const handleBrandFilter = (
-    value: number,
-    isChecked: boolean,
-    brand: string
-  ) => {
+  const handleBrandFilter = (value: number, isChecked: boolean) => {
     if (isChecked) {
       setFilterQuery((prevValue) => {
         if (prevValue.brands) {
@@ -105,11 +92,7 @@ export default function FilterSlider({
       });
     }
   };
-  const handleCategoriesFilter = (
-    value: number,
-    isChecked: boolean,
-    category: string
-  ) => {
+  const handleCategoriesFilter = (value: number, isChecked: boolean) => {
     if (isChecked) {
       setFilterQuery((prevValue) => {
         if (prevValue.categories) {
@@ -174,18 +157,7 @@ export default function FilterSlider({
     }
   };
 
-  // useEffect(() => {
-  //   dispatch(
-  //     getFilteredProducts({
-  //       gender: router.query.gender,
-  //       brand: filterQuery.brands,
-  //       page: currentPage,
-  //     })
-  //   );
-  // }, [filterQuery]);
-
   useEffect(() => {
-    // dispatch(filterProducts(filterQuery));
     setMin_Max([+filterQuery.priceRange.min, +filterQuery.priceRange.max]);
   }, [filterQuery, dispatch]);
 
@@ -311,16 +283,8 @@ export default function FilterSlider({
                   onClick={(e: MouseEvent<HTMLLabelElement>) => {
                     handleBrandFilter(
                       brand.id,
-                      (e.target as unknown as { checked: boolean }).checked,
-                      brand.slug
+                      (e.target as unknown as { checked: boolean }).checked
                     );
-                    // dispatch(
-                    //   getFilteredProducts({
-                    //     gender: router.query.gender,
-                    //     page: currentPage,
-                    //     brand: brand.id,
-                    //   })
-                    // );
                   }}
                   htmlFor="my-checkbox"
                 />
@@ -355,11 +319,7 @@ export default function FilterSlider({
                       color="primary"
                       style={{ color: "#374151", border: "1.5 px solid " }}
                       onChange={(e) => {
-                        handleCategoriesFilter(
-                          category.id,
-                          e.target.checked,
-                          category.slug
-                        );
+                        handleCategoriesFilter(category.id, e.target.checked);
                       }}
                     />
                   }
@@ -388,6 +348,11 @@ export default function FilterSlider({
                   <Checkbox
                     color="primary"
                     style={{ color: "#374151", border: "1.5 px solid " }}
+                    checked={
+                      filterQuery.sizes && filterQuery.sizes.includes(size.id)
+                        ? true
+                        : false
+                    }
                   />
                 }
                 label={size.value}

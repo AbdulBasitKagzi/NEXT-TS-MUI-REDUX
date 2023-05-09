@@ -49,7 +49,6 @@ const NavbarModel: React.FC<menuProps> = ({
 }) => {
   const theme = useTheme();
   const { routeValue } = useSelector((state: RootState) => state.user);
-  const router = useRouter();
 
   return (
     <Box
@@ -118,11 +117,10 @@ const NavbarModel: React.FC<menuProps> = ({
                           color: theme.palette.secondary.dark,
                           display: "block",
                         }}
-                        // onClick={() => {
-                        //   router.push(
-                        //     `/categorydetail/${routeValue}/${category.slug}`
-                        //   );
-                        // }}
+                        onClick={() => {
+                          setOpenModel(false);
+                          setBackground("transparent");
+                        }}
                       >
                         {category.value}
                       </ListItem>
@@ -163,9 +161,7 @@ const NavbarModel: React.FC<menuProps> = ({
                           color: theme.palette.secondary.dark,
                           display: "block",
                         }}
-                        onClick={() => {
-                          // navigate(`/categorydetail/${routeValue}/${brand.slug}`);
-                        }}
+                        onClick={() => setOpenModel(false)}
                       >
                         {brand.value}
                       </ListItem>

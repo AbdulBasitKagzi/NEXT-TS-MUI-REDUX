@@ -11,22 +11,6 @@ import { assets } from "../../assets";
 const ImageSlider: React.FC = () => {
   const theme = useTheme();
 
-  const imageTextStyle = {
-    text: {
-      fontSize: "95px",
-      color: theme.palette.success.main,
-    },
-    "@media (max-width: 600px)": {
-      text: {
-        fontSize: "45px",
-      },
-    },
-    // "@media (max-width: 600px)": {
-    //   text: {
-    //     fontSize: "45px",
-    //   },
-    // },
-  };
   return (
     <Box
       sx={{

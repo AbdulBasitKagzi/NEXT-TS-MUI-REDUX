@@ -5,12 +5,7 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 
 import "swiper/css/navigation";
 
-import styles from "./swiper.module.css";
 import { Navigation } from "swiper";
-
-// icons & images
-// import leftArrowIcon from "../assets/icons/leftArrowIcon.svg";
-// import rightArrowIcon from "../assets/icons/rightArrowIcon.svg";
 
 // mui imports
 import { Box, Button, useTheme } from "@mui/material";

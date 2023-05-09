@@ -24,6 +24,7 @@ export const login = createAsyncThunk(
         },
       });
 
+      if (res.status === 200) localStorage.setItem("email", body.email);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -81,14 +82,13 @@ export const place_order = createAsyncThunk(
   "user/order",
   async (body: any, { dispatch, rejectWithValue }) => {
     try {
-      console.log("body place order", body);
       const res = await axios.post(backend_routes.user.place_order, body, {
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log("res", res);
+
       if (res.status === 200) {
         Router.push("/");
         dispatch(getUserCart());
