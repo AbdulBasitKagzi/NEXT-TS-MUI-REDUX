@@ -259,6 +259,7 @@ const Footer: React.FC = () => {
                 fontSize: "20px",
                 fontWeight: 700,
                 color: theme.palette.primary.dark,
+                mt: 2,
               }}
             >
               Signup For The Latest News

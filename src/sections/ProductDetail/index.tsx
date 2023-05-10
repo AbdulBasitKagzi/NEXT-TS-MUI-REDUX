@@ -459,6 +459,7 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
             if (!save) {
               setOpen(true);
             } else {
+              selectedProduct && dispatch(addToCart(selectedProduct));
               router.push("/shipping");
             }
           }}

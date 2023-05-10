@@ -20,6 +20,7 @@ function ConfirmationPage({
   const router = useRouter();
   const dispatch = useDispatch<any>();
   const { userShippingDetail } = useSelector((state: RootState) => state.user);
+
   return (
     <Box sx={{ mt: 11 }}>
       <Typography
@@ -78,6 +79,7 @@ function ConfirmationPage({
           }}
           onClick={() => {
             dispatch(place_order({ shippingAddress: userShippingDetail?.id }));
+
             // router.push("/");
           }}
         >

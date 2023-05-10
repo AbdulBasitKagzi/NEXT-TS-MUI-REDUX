@@ -91,6 +91,7 @@ export const place_order = createAsyncThunk(
 
       if (res.status === 200) {
         Router.push("/");
+
         dispatch(getUserCart());
       }
       return res;

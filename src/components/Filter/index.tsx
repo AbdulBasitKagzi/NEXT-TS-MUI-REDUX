@@ -168,8 +168,6 @@ export default function FilterSlider({
     }));
   };
 
-  console.log(filterQuery);
-
   const desktop_filter = () => {
     return (
       <>

@@ -3,6 +3,8 @@ import { backend_routes } from "@/routes/backend_routes";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getUserCart } from "../cart/cart.thunk";
+import { debounce } from "lodash";
+import { Dispatch } from "react";
 
 export const getAllProduct = createAsyncThunk(
   "product/getAll",
@@ -75,3 +77,7 @@ export const getFilteredProducts = createAsyncThunk(
     }
   }
 );
+
+export const debouncedFilterProducts = debounce((params, dispatch) => {
+  dispatch(getFilteredProducts(params));
+});

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { assets } from "@/assets";
 import { StepIcon, useTheme } from "@mui/material";
 import Stepper from "@mui/material/Stepper";
@@ -13,25 +13,33 @@ interface stepperComponentProps {
 function StepperComponent({ page, steps }: stepperComponentProps): JSX.Element {
   const theme = useTheme();
 
-  function CustomStepIcon(props: any) {
-    const { active, completed } = props;
-    return (
-      <StepIcon
-        icon={
-          completed ? (
-            <img src={assets.icons.stepperComplete.src} alt="stepperComplete" />
-          ) : (
-            <img
-              src={assets.icons.stepperIncomplete.src}
-              alt="stepperIncomplete"
-            />
-          )
-        }
-        active={active}
-        completed={completed}
-      />
-    );
-  }
+  const MemoizedCustomStepIcon = useMemo(() => {
+    function CustomStepIcon(props: any) {
+      const { active, completed } = props;
+
+      return (
+        <StepIcon
+          icon={
+            completed ? (
+              <img
+                src={assets.icons.stepperComplete.src}
+                alt="stepperComplete"
+              />
+            ) : (
+              <img
+                src={assets.icons.stepperIncomplete.src}
+                alt="stepperIncomplete"
+              />
+            )
+          }
+          active={active}
+          completed={completed}
+        />
+      );
+    }
+    return React.memo(CustomStepIcon);
+  }, []);
+
   return (
     <>
       <Stepper
@@ -48,7 +56,9 @@ function StepperComponent({ page, steps }: stepperComponentProps): JSX.Element {
       >
         {steps.map((label) => (
           <Step key={label}>
-            <StepLabel StepIconComponent={CustomStepIcon}>{label}</StepLabel>
+            <StepLabel StepIconComponent={MemoizedCustomStepIcon}>
+              {label}
+            </StepLabel>
           </Step>
         ))}
       </Stepper>

@@ -28,23 +28,26 @@ import { cartProducts } from "../../store/cart/cart.types";
 import { useTheme } from "@mui/material";
 import { get_like_products } from "@/store/user/user.thunk";
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
+interface navbarProps {
+  setOpenModel: React.Dispatch<React.SetStateAction<boolean>>;
+  openModel: boolean;
   window?: () => Window;
 }
 
 const drawerWidth = 240;
 
-export default function DrawerAppBar(props: Props) {
+export default function DrawerAppBar({
+  window,
+  setOpenModel,
+  openModel,
+}: navbarProps) {
   const theme = useTheme();
   const router = useRouter();
   const { cartProducts } = useSelector((state: RootState) => state.cart);
-  const { window } = props;
+
   // const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+
   const dispatch = useDispatch<any>();
   const [background, setBackground] = useState<string | undefined>(
     "transparent"
@@ -53,6 +56,7 @@ export default function DrawerAppBar(props: Props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+    openModel && setOpenModel(false);
   };
 
   const navIcons = [
@@ -63,7 +67,7 @@ export default function DrawerAppBar(props: Props) {
     { id: 5, value: assets.icons.Like_Vector },
   ];
 
-  const [openModel, setOpenModel] = useState<boolean>(false);
+  // const [openModel, setOpenModel] = useState<boolean>(false);
   const [value, setValue] = useState<number>(-1);
 
   const [totalCartProducts, setTotalCartProducts] = useState<number>(0);
@@ -101,7 +105,7 @@ export default function DrawerAppBar(props: Props) {
                     router.push("/");
                   } else if (item.id !== 3 && item.id !== 4) {
                     dispatch(makeRoute(item.id));
-                    setOpenModel(true);
+                    setOpenModel((prev) => !prev);
                   } else {
                     router.push("/");
                   }
@@ -138,6 +142,7 @@ export default function DrawerAppBar(props: Props) {
             position: "relative",
             maxWidth: "1600px",
             mx: "auto",
+            zIndex: 10,
           }}
         >
           {openModel && (
@@ -150,6 +155,7 @@ export default function DrawerAppBar(props: Props) {
               />
             </Box>
           )}
+
           <Toolbar sx={{ display: "block" }}>
             <IconButton
               color="inherit"

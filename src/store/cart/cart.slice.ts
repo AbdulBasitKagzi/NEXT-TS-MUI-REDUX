@@ -30,6 +30,9 @@ const cartSlice = createSlice({
     decrementPage: (state) => {
       state.page = state.page - 1;
     },
+    resetPage: (state) => {
+      state.page = 1;
+    },
     setCartError: (state) => {
       state.error = false;
     },
@@ -124,6 +127,7 @@ export const {
   notification,
   incrementPage,
   decrementPage,
+  resetPage,
   setCartError,
 } = cartSlice.actions;
 export default cartSlice.reducer;

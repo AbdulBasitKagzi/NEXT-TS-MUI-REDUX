@@ -1,8 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-
-import { Inter } from "next/font/google";
-
 import Slider from "../components/DealsSlider/index";
 import Layout from "../layout/index";
 import CategoryTab from "../components/Tab/index";
@@ -17,7 +14,7 @@ import { RootState } from "../store/store";
 import { assets } from "../assets";
 import { getAllProduct } from "@/store/product/product.thunk";
 import { useDispatch } from "react-redux";
-import { products } from "../data/Constants";
+import { resetPage } from "@/store/cart/cart.slice";
 
 // mui imports
 import { useTheme } from "@mui/material";
@@ -28,8 +25,6 @@ import CategoryGrid from "../sections/Categorygrid/index";
 import { useEffect } from "react";
 import { getUserCart } from "@/store/cart/cart.thunk";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export default function Home() {
   const { ProductsList, Products } = useSelector(
     (state: RootState) => state.product
@@ -39,9 +34,11 @@ export default function Home() {
   useEffect(() => {
     dispatch(getAllProduct());
     dispatch(getUserCart());
+    dispatch(resetPage());
   }, []);
 
   const theme = useTheme();
+
   return (
     <>
       <Head>
@@ -50,6 +47,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Box>
         <Box
           sx={{
@@ -75,6 +73,7 @@ export default function Home() {
               opacity: 0.85,
             }}
           />
+
           <Box
             sx={{
               position: "absolute",
@@ -85,10 +84,21 @@ export default function Home() {
               background: "#FFFFFF",
             }}
           />
+
           <Box sx={{ position: "absolute", zIndex: 4, width: "100%" }}>
             <Layout>
-              <Box maxWidth="1600px" sx={{ mx: "auto" }}>
-                <Box sx={{ mt: { md: 7, sm: 1 }, zIndex: -1 }}>
+              <Box
+                maxWidth="1600px"
+                sx={{
+                  mx: "auto",
+                }}
+              >
+                <Box
+                  sx={{
+                    mt: { md: 7, sm: 1 },
+                    zIndex: -1,
+                  }}
+                >
                   <Typography
                     sx={{
                       fontFamily: "Jost",

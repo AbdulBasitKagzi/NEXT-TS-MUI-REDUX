@@ -22,7 +22,7 @@ import StepperComponent from "@/components/Stepper";
 
 const ShippingPage: React.FC = () => {
   const steps = ["Shipping", "Billing", "Confirmation"];
-  const router = useRouter();
+
   const { cartProducts, subTotal, page } = useSelector(
     (state: RootState) => state.cart
   );

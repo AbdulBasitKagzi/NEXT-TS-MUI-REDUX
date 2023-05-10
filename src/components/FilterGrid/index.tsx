@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 // import { productActions } from "../../store/product/product.slice";
 import Link from "next/link";
 import { RootState } from "../../store/store";
-import { productProps } from "../../store/product/product.types";
+import { genderProps, productProps } from "../../store/product/product.types";
 import WarningModel from "../WarningModel";
 
 // images and icons import
@@ -21,16 +21,7 @@ import DescriptionAlerts from "../Alert";
 import Loader from "../Loader";
 import { addToCart } from "@/store/cart/cart.thunk";
 
-interface data {
-  id: number;
-  value: string;
-  slug: string;
-}
-
 interface filterGridProps {
-  foundGender: data;
-  foundBrand: data;
-  foundCategory: data;
   toggleDrawer: (
     anchor: "bottom",
     open: boolean
@@ -47,27 +38,25 @@ interface filterGridProps {
       page: number;
     }>
   >;
+  type: genderProps;
 }
 
 const FilterGrid: React.FC<filterGridProps> = ({
-  foundGender,
   toggleDrawer,
   setCurrentPage,
-  currentPage,
   setFilterQuery,
+  type,
 }) => {
   const theme = useTheme();
   const { filteredProducts, totalProduct, isLoading } = useSelector(
     (state: RootState) => state.product
   );
-  const { cartProducts, added } = useSelector((state: RootState) => state.cart);
+  const { added } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<any>();
 
   const [totalPage, setTotalPage] = useState<number>();
   let postPerPage: number = 9;
 
-  const [currentposts, setCurrentPosts] =
-    useState<productProps[]>(filteredProducts);
   const [save, setSave] = useState<string>();
   const [open, setOpen] = useState<boolean>(false);
   const [openUp, setOpenUp] = useState<boolean>(false);
@@ -106,13 +95,13 @@ const FilterGrid: React.FC<filterGridProps> = ({
             color: theme.palette.primary.dark,
           }}
         >
-          {foundGender?.value} Products
+          {type?.value} Products
         </Typography>
         <Box
           onClick={toggleDrawer("bottom", true)}
           sx={{ display: { sm: "none", xs: "block" }, alignSelf: "self-end" }}
         >
-          <FilterListIcon sx={{ mr: 5 }} />
+          <FilterListIcon sx={{ mr: 2 }} />
         </Box>
       </Box>
       <Box
@@ -157,7 +146,15 @@ const FilterGrid: React.FC<filterGridProps> = ({
 
         <Grid container spacing={4}>
           {isLoading ? (
-            <Loader />
+            <Box
+              sx={{
+                position: "absolute",
+                top: { sm: "15%", xs: "1%" },
+                left: { sm: "60%", xs: "40%" },
+              }}
+            >
+              <Loader />
+            </Box>
           ) : filteredProducts.length !== 0 ? (
             filteredProducts.map((arr, index) => (
               <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
@@ -195,7 +192,6 @@ const FilterGrid: React.FC<filterGridProps> = ({
                                 style={{
                                   width: "100%",
                                   height: "300px",
-                                  objectFit: "none",
                                 }}
                               />
                             </Box>

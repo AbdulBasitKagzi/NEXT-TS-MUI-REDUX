@@ -48,6 +48,9 @@ function UserPaymentInformation({
 
   const dispatch = useDispatch<any>();
 
+  console.log("year", new Date().getFullYear() % 100);
+  console.log("month", new Date().getMonth());
+
   const formik = useFormik({
     initialValues: {
       cardName: "",
@@ -60,12 +63,33 @@ function UserPaymentInformation({
       cardNumber: Yup.string()
         .min(16, "Enter 16 digit card number")
         .required("Card number is required"),
+      // expiration: Yup.string()
+      //   .matches(
+      //     /^((0[1-9])|(1[0-2]))[/]*((2[3-9]))$/,
+      //     "Enter valid credit card expiry date"
+      //   )
+      //   .required("Card expiry date is required"),
       expiration: Yup.string()
+        .required("Expiry date is required")
         .matches(
           /^((0[1-9])|(1[0-2]))[/]*((2[3-9]))$/,
           "Enter valid credit card expiry date"
         )
-        .required("Card expiry date is required"),
+        .test("expiration", "Card is already expired", function (value) {
+          const year = new Date().getFullYear() % 100;
+          let month = new Date().getMonth().toString();
+          if (+month < 10) {
+            month = "0" + month;
+          }
+          let mm = value.substring(0, 2);
+          let yy = value.substring(3);
+
+          return +yy > year || (+yy == year && +mm >= +month);
+          // all good because the yy from expiryDate is greater than the current yy
+          // or if the yy from expiryDate is the same as the current yy but the mm
+          // from expiryDate is greater than the current mm
+          // return true;
+        }),
       cvv: Yup.string()
         .min(3, "Enter 3 digit cvv number")
         .required("CVV number is required"),

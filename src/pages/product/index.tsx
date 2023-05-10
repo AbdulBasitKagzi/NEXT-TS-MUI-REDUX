@@ -11,18 +11,19 @@ import FilterGrid from "../../components/FilterGrid";
 // mui imports
 import { Box } from "@mui/system";
 import { Typography, useTheme } from "@mui/material";
-import { getFilteredProducts } from "@/store/product/product.thunk";
+import {
+  debouncedFilterProducts,
+  getFilteredProducts,
+} from "@/store/product/product.thunk";
 import { RootState } from "@/store/store";
 import { data, filterQueryTypes } from "./product.types";
+import { genderProps } from "@/store/product/product.types";
 
 export const CategoryDetail: React.FC = () => {
   const theme = useTheme();
 
   const router = useRouter();
 
-  const [foundGender, setFoundGender] = useState<data>();
-  const [foundBrand, setFoundBrand] = useState<data>();
-  const [foundCategory, setFoundCategory] = useState<data>();
   const [filterQuery, setFilterQuery] = useState<filterQueryTypes>({
     gender: router.query.gender,
     brands: [],
@@ -31,9 +32,10 @@ export const CategoryDetail: React.FC = () => {
     priceRange: { min: "0", max: "1000" },
     page: 1,
   });
-  let g;
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const dispatch = useDispatch<any>();
+  const [type, setType] = useState<genderProps>();
 
   useEffect(() => {
     if (router.isReady) {
@@ -52,18 +54,19 @@ export const CategoryDetail: React.FC = () => {
   useEffect(() => {
     if (router.isReady) {
       dispatch(getFilteredProducts(filterQuery));
+      // dispatch(debouncedFilterProducts(filterQuery, dispatch));
     }
   }, [router.isReady, filterQuery]);
 
   useEffect(() => {
     if (router.isReady) {
-      g = gender.filter((gender) => {
-        if (router.query.gender) return gender.id === +router.query.gender;
-      });
-    }
-  }, [router.isReady, router.query]);
+      const res = gender.find(
+        (gender) => gender.id === Number(router.query.gender)
+      );
 
-  console.log("g", g);
+      setType(res);
+    }
+  }, [router.isReady, filterQuery.gender]);
 
   const [state, setState] = useState({
     bottom: false,
@@ -121,13 +124,11 @@ export const CategoryDetail: React.FC = () => {
                 currentPage={currentPage}
               />
               <FilterGrid
-                foundGender={foundGender as data}
-                foundBrand={foundBrand as data}
-                foundCategory={foundCategory as data}
                 toggleDrawer={toggleDrawer}
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
                 setFilterQuery={setFilterQuery}
+                type={type as genderProps}
               />
             </Box>
           </Box>
