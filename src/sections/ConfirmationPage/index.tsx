@@ -7,6 +7,7 @@ import { Box, Button, Typography, useTheme } from "@mui/material";
 import { user } from "../../forms/userInformation/userInformation.types";
 import { RootState } from "@/store/store";
 import { place_order } from "@/store/user/user.thunk";
+import DescriptionAlerts from "@/components/Alert";
 
 interface confirmationPageProps {
   userInformation: user;
@@ -19,10 +20,23 @@ function ConfirmationPage({
 
   const router = useRouter();
   const dispatch = useDispatch<any>();
-  const { userShippingDetail } = useSelector((state: RootState) => state.user);
+  const { userShippingDetail, error, message } = useSelector(
+    (state: RootState) => state.user
+  );
 
   return (
     <Box sx={{ mt: 11 }}>
+      {error && (
+        <DescriptionAlerts
+          type="error"
+          title="Error"
+          message={message}
+          openUp={error}
+          // setOpenUp={setOpenUp}
+          closeDuration={2000}
+          backgroundColor="#cc0000"
+        />
+      )}
       <Typography
         sx={{
           fontFamily: "Roboto",

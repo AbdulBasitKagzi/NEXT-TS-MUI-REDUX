@@ -3,6 +3,7 @@ import { userstate } from "./user.types";
 import {
   get_like_products,
   login,
+  place_order,
   user_payment_detail,
   user_shipping_detail,
 } from "./user.thunk";
@@ -99,6 +100,18 @@ const userSlice = createSlice({
       console.log(state.message);
       state.error = true;
       state.isLoading = false;
+    });
+    // palce order
+    builder.addCase(place_order.fulfilled, (state, action: AnyAction) => {
+      state.isLoading = false;
+    });
+    builder.addCase(place_order.rejected, (state, action: AnyAction) => {
+      console.log("reje place order", action.payload);
+      state.message = action.payload.response.data.error.message;
+      state.error = true;
+    });
+    builder.addCase(place_order.pending, (state, action: AnyAction) => {
+      state.isLoading = true;
     });
   },
 });
