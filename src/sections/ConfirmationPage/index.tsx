@@ -24,6 +24,7 @@ function ConfirmationPage({
     (state: RootState) => state.user
   );
 
+  console.log("shippingDetail", userShippingDetail);
   return (
     <Box sx={{ mt: 11 }}>
       {error && (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { gender } from "@/data/Constants";
 
@@ -11,12 +11,9 @@ import FilterGrid from "../../components/FilterGrid";
 // mui imports
 import { Box } from "@mui/system";
 import { Typography, useTheme } from "@mui/material";
-import {
-  debouncedFilterProducts,
-  getFilteredProducts,
-} from "@/store/product/product.thunk";
-import { RootState } from "@/store/store";
-import { data, filterQueryTypes } from "./product.types";
+import { getFilteredProducts } from "@/store/product/product.thunk";
+
+import { filterQueryTypes } from "./product.types";
 import { genderProps } from "@/store/product/product.types";
 
 export const CategoryDetail: React.FC = () => {
@@ -54,7 +51,6 @@ export const CategoryDetail: React.FC = () => {
   useEffect(() => {
     if (router.isReady) {
       dispatch(getFilteredProducts(filterQuery));
-      // dispatch(debouncedFilterProducts(filterQuery, dispatch));
     }
   }, [router.isReady, filterQuery]);
 
@@ -122,6 +118,7 @@ export const CategoryDetail: React.FC = () => {
                 toggleDrawer={toggleDrawer}
                 state={state}
                 currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
               <FilterGrid
                 toggleDrawer={toggleDrawer}

@@ -21,9 +21,7 @@ const ItemDetailView: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch<any>();
 
-  //   const params = useParams();
-
-  const { cartProducts, added, message } = useSelector(
+  const { added, message, isLoading } = useSelector(
     (state: RootState) => state.cart
   );
 
@@ -71,7 +69,7 @@ const ItemDetailView: React.FC = () => {
             {/* slider */}
             <ProductImageSlider />
             {/* productDetail */}
-            <ProductDetail setOpen={setOpen} save={save} />
+            <ProductDetail setOpen={setOpen} save={save} loading={isLoading} />
           </Box>
         </Box>
       </Layout>

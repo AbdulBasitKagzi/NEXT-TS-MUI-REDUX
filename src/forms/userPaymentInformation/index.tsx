@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { PatternFormat } from "react-number-format";
+import { assets } from "../../assets";
+import { useDispatch } from "react-redux";
+import { paymentInformation } from "./userPaymentInformation";
+import { decrementPage } from "@/store/cart/cart.slice";
+import { user_payment_detail } from "@/store/user/user.thunk";
 // mui imports
 import {
   Box,
@@ -14,11 +19,6 @@ import {
   InputAdornment,
   NoSsr,
 } from "@mui/material";
-import { assets } from "../../assets";
-import { useDispatch } from "react-redux";
-import { paymentInformation } from "./userPaymentInformation";
-import { decrementPage } from "@/store/cart/cart.slice";
-import { user_payment_detail } from "@/store/user/user.thunk";
 
 interface userPaymentInformationprops {
   total: number;
@@ -47,9 +47,6 @@ function UserPaymentInformation({
   };
 
   const dispatch = useDispatch<any>();
-
-  console.log("year", new Date().getFullYear() % 100);
-  console.log("month", new Date().getMonth());
 
   const formik = useFormik({
     initialValues: {
@@ -230,7 +227,7 @@ function UserPaymentInformation({
               <TextField
                 id="cardName"
                 name="cardName"
-                label="Enter Name Card"
+                label="Card holder's name"
                 value={formik.values.cardName}
                 fullWidth
                 placeholder="alex patel"
@@ -257,22 +254,18 @@ function UserPaymentInformation({
               ) : null}
             </Grid>
             <Grid item xs={12} sm={12}>
-              <TextField
+              <PatternFormat
                 id="cardNumber"
-                name="cardNumber"
-                label="Card Number"
-                type="number"
-                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  e.target.value = e.target.value.toString().slice(0, 16);
-                }}
-                value={formik.values.cardNumber}
-                fullWidth
-                autoComplete="card number"
-                placeholder="4444 4444 4444 4444"
+                label="Card number"
+                customInput={TextField}
                 variant="standard"
                 sx={{
+                  width: "100%",
                   paddingBottom: 4,
                 }}
+                displayType="input"
+                value={formik.values.cardNumber}
+                format="#### #### #### ####"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 InputProps={{
@@ -298,22 +291,16 @@ function UserPaymentInformation({
               ) : null}
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PatternFormat
+                customInput={TextField}
                 id="expiration"
-                name="expiration"
-                label="Expiration"
-                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  e.target.value = e.target.value.toString().slice(0, 5);
-                }}
-                // inputProps={{
-                //   min: "2023-05-5T00:00",
-                // }}
-                fullWidth
+                displayType="input"
+                label="Expiry date"
                 value={formik.values.expiration}
-                autoComplete="shipping address-line1"
+                format="##/##"
                 variant="standard"
-                placeholder="01/23"
                 sx={{
+                  width: "100%",
                   paddingBottom: 4,
                 }}
                 onChange={formik.handleChange}
@@ -337,7 +324,7 @@ function UserPaymentInformation({
               <TextField
                 id="cvv"
                 name="cvv"
-                label="CVV Code"
+                label="CVV code"
                 type="number"
                 onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                   e.target.value = e.target.value.toString().slice(0, 3);

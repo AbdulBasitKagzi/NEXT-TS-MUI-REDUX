@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeRoute } from "@/store/user/user.slice";
 import { gender } from "../../data/Constants";
 import { assets } from "../../assets";
+import { get_like_products } from "@/store/user/user.thunk";
+import { RootState } from "../../store/store";
+import { cartProducts } from "../../store/cart/cart.types";
+import NavbarModel from "../../components/NavbarModel/index";
 
 // mui imports
 import AppBar from "@mui/material/AppBar";
@@ -18,15 +22,10 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import NavbarModel from "../../components/NavbarModel/index";
-import { RootState } from "../../store/store";
-import { cartProducts } from "../../store/cart/cart.types";
 import { useTheme } from "@mui/material";
-import { get_like_products } from "@/store/user/user.thunk";
 
 interface navbarProps {
   setOpenModel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -67,7 +66,6 @@ export default function DrawerAppBar({
     { id: 5, value: assets.icons.Like_Vector },
   ];
 
-  // const [openModel, setOpenModel] = useState<boolean>(false);
   const [value, setValue] = useState<number>(-1);
 
   const [totalCartProducts, setTotalCartProducts] = useState<number>(0);
@@ -202,11 +200,18 @@ export default function DrawerAppBar({
                   gap: 4,
                   zIndex: 5,
                 }}
+                onMouseLeave={() => setBackground("transparent")}
               >
                 {gender.map((item) => (
                   <Link
                     key={item.id}
-                    href={item.id === 0 ? `/` : `/product?gender=${item.id}`}
+                    href={
+                      item.id === 0
+                        ? `/`
+                        : item.id === 3 || item.id === 4
+                        ? `/`
+                        : `/product?gender=${item.id}`
+                    }
                     style={{ textDecoration: "none" }}
                   >
                     {item.id === 0 && (
@@ -240,11 +245,11 @@ export default function DrawerAppBar({
                           setValue(item.id);
                         } else {
                           setOpenModel(false);
+                          setBackground("transparent");
                         }
                       }}
                       onMouseLeave={() => {
                         if (item.id !== 0) {
-                          setBackground("transparent");
                           setValue(-1);
                         }
                       }}

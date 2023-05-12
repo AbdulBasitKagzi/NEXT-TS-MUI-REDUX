@@ -76,7 +76,7 @@ const productSlice = createSlice({
       (state, action: AnyAction) => {
         console.log("full fillterProd", action);
         state.filteredProducts = action.payload.data.data.items;
-        state.totalProduct = action.payload.data.totalCount;
+        state.totalProduct = action.payload.data.data.count;
         state.isLoading = false;
       }
     );

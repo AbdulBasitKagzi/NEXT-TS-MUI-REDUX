@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-// import { productActions } from "../../store/product/product.slice";
 import Link from "next/link";
 import { RootState } from "../../store/store";
-import { genderProps, productProps } from "../../store/product/product.types";
+import { genderProps } from "../../store/product/product.types";
 import WarningModel from "../WarningModel";
+import DescriptionAlerts from "../Alert";
+import Loader from "../Loader";
+import { addToCart } from "@/store/cart/cart.thunk";
 
 // images and icons import
 import { assets } from "../../assets";
@@ -17,9 +18,6 @@ import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import { useTheme } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import DescriptionAlerts from "../Alert";
-import Loader from "../Loader";
-import { addToCart } from "@/store/cart/cart.thunk";
 
 interface filterGridProps {
   toggleDrawer: (
@@ -45,6 +43,7 @@ const FilterGrid: React.FC<filterGridProps> = ({
   toggleDrawer,
   setCurrentPage,
   setFilterQuery,
+  currentPage,
   type,
 }) => {
   const theme = useTheme();
@@ -299,28 +298,33 @@ const FilterGrid: React.FC<filterGridProps> = ({
           )}
         </Grid>
 
-        {filteredProducts.length !== 0 && (
+        {filteredProducts.length !== 0 && !isLoading && (
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 10 }}>
-            <Pagination
-              sx={{
-                ".MuiPaginationItem-root": {
-                  border: "1px solid #D1D5DB",
-                  color: theme.palette.error.dark,
-                  fontSize: "20px",
-                  fontWeight: 700,
-                  borderRadius: 0,
-                  width: "38px",
-                  height: "38px",
-                },
-              }}
-              count={totalPage}
-              variant="outlined"
-              shape="rounded"
-              onChange={(event: React.ChangeEvent<unknown>, page: number) => {
-                setCurrentPage(page);
-                setFilterQuery((prev) => ({ ...prev, page: page }));
-              }}
-            />
+            <>
+              {console.log("page", currentPage)}
+              <Pagination
+                sx={{
+                  ".MuiPaginationItem-root": {
+                    border: "1px solid #D1D5DB",
+                    color: theme.palette.error.dark,
+                    fontSize: "20px",
+                    fontWeight: 700,
+                    borderRadius: 0,
+                    width: "38px",
+                    height: "38px",
+                  },
+                }}
+                count={totalPage}
+                variant="outlined"
+                shape="rounded"
+                page={currentPage}
+                onChange={(event: React.ChangeEvent<unknown>, page: number) => {
+                  console.log("test", page);
+                  setCurrentPage(page);
+                  setFilterQuery((prev) => ({ ...prev, page: page }));
+                }}
+              />
+            </>
           </Box>
         )}
       </Box>

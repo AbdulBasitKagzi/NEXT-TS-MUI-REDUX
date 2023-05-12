@@ -2,12 +2,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import Image from "next/image";
-
 import styles from "./swiperstyles.module.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Box, Typography, useTheme } from "@mui/material";
 import { assets } from "../../assets";
+
 const ImageSlider: React.FC = () => {
   const theme = useTheme();
 

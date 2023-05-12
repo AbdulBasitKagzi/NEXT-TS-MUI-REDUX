@@ -38,8 +38,8 @@ const ShippingPage: React.FC = () => {
     city: "australia",
     address: "",
     zipCode: "",
-    date: date_time.toString(),
-    time: date_time.toString(),
+    date: date_time.toISOString(),
+    time: new Date(date_time).toTimeString(),
   });
   const [paymentInformation, setPaymentInformation] =
     useState<paymentInformation>({

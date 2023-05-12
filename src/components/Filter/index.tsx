@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/router";
 import { MouseEvent } from "react";
+import SwipeableTemporaryDrawer from "../FilterProductDrawer/index";
+import { filterQueryTypes } from "@/pages/product/product.types";
 
 import {
   brandFilter,
@@ -16,12 +17,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
-
 import { useTheme } from "@mui/material";
-
-import SwipeableTemporaryDrawer from "../FilterProductDrawer/index";
-
-import { filterQueryTypes } from "@/pages/product/product.types";
 
 interface filterProps {
   filterQuery: filterQueryTypes;
@@ -44,6 +40,7 @@ interface filterProps {
     open: boolean
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
   currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function FilterSlider({
@@ -51,7 +48,7 @@ export default function FilterSlider({
   setFilterQuery,
   state,
   toggleDrawer,
-  currentPage,
+  setCurrentPage,
 }: filterProps): JSX.Element {
   const theme = useTheme();
   const [min_max, setMin_Max] = useState<Array<number>>([
@@ -68,28 +65,34 @@ export default function FilterSlider({
           return {
             ...prevValue,
             brands: [...prevValue.brands, value],
+            page: 1,
           };
         } else {
           return {
             ...prevValue,
             brands: [value],
+            page: 1,
           };
         }
       });
+      setCurrentPage(1);
     } else {
       setFilterQuery((prevValue) => {
         if (prevValue.brands) {
           return {
             ...prevValue,
             brands: [...prevValue.brands.filter((filter) => filter !== value)],
+            page: 1,
           };
         } else {
           return {
             ...prevValue,
             brands: [value],
+            page: 1,
           };
         }
       });
+      setCurrentPage(1);
     }
   };
   const handleCategoriesFilter = (value: number, isChecked: boolean) => {
@@ -99,14 +102,17 @@ export default function FilterSlider({
           return {
             ...prevValue,
             categories: [...prevValue.categories, value],
+            page: 1,
           };
         } else {
           return {
             ...prevValue,
             categories: [value],
+            page: 1,
           };
         }
       });
+      setCurrentPage(1);
     } else {
       setFilterQuery((prevValue) => {
         if (prevValue.categories) {
@@ -115,14 +121,17 @@ export default function FilterSlider({
             categories: [
               ...prevValue.categories.filter((filter) => filter !== value),
             ],
+            page: 1,
           };
         } else {
           return {
             ...prevValue,
             categories: [value],
+            page: 1,
           };
         }
       });
+      setCurrentPage(1);
     }
   };
   const handleSizeFilter = (value: number, isChecked: boolean) => {
@@ -137,23 +146,28 @@ export default function FilterSlider({
           return {
             ...prevValue,
             sizes: [value],
+            page: 1,
           };
         }
       });
+      setCurrentPage(1);
     } else {
       setFilterQuery((prevValue) => {
         if (prevValue.sizes) {
           return {
             ...prevValue,
             sizes: [...prevValue.sizes.filter((filter) => filter !== value)],
+            page: 1,
           };
         } else {
           return {
             ...prevValue,
             sizes: [value],
+            page: 1,
           };
         }
       });
+      setCurrentPage(1);
     }
   };
 
@@ -165,7 +179,9 @@ export default function FilterSlider({
     setFilterQuery((prev) => ({
       ...prev,
       priceRange: { min: value[0].toString(), max: value[1].toString() },
+      page: 1,
     }));
+    setCurrentPage(1);
   };
 
   const desktop_filter = () => {
@@ -278,7 +294,8 @@ export default function FilterSlider({
                     />
                   }
                   label={brand.value}
-                  onClick={(e: MouseEvent<HTMLLabelElement>) => {
+                  onChange={(e) => {
+                    e.preventDefault();
                     handleBrandFilter(
                       brand.id,
                       (e.target as unknown as { checked: boolean }).checked

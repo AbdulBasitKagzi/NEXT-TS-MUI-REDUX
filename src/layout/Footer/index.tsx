@@ -333,10 +333,26 @@ const Footer: React.FC = () => {
             gap: 6,
           }}
         >
-          <img src={assets.icons.facebook.src} alt="facebook" />
-          <img src={assets.icons.instagram.src} alt="instagram" />
-          <img src={assets.icons.youtube.src} alt="youtube" />
-          <img src={assets.icons.twitter.src} alt="twitter" />
+          <img
+            src={assets.icons.facebook.src}
+            alt="facebook"
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            src={assets.icons.instagram.src}
+            alt="instagram"
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            src={assets.icons.youtube.src}
+            alt="youtube"
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            src={assets.icons.twitter.src}
+            alt="twitter"
+            style={{ cursor: "pointer" }}
+          />
         </Box>
         <Box>
           <Divider variant="middle" />

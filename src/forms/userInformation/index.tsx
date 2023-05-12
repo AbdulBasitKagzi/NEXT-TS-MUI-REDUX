@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { user } from "./userInformation.types";
 import { user_shipping_detail } from "@/store/user/user.thunk";
-
 import * as Yup from "yup";
 
 // mui imports
@@ -28,6 +27,7 @@ import NativeSelect from "@mui/material/NativeSelect";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import SearchIcon from "@mui/icons-material/Search";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
 interface UserInformationType {
   userInformation: user;
   setUserInformation: React.Dispatch<React.SetStateAction<user>>;
@@ -36,8 +36,7 @@ interface UserInformationType {
 function UserInformation({
   setUserInformation,
   userInformation,
-}: // handleUserValidation
-UserInformationType): JSX.Element {
+}: UserInformationType): JSX.Element {
   const theme = useTheme();
   const router = useRouter();
   const [date_time, setDate_Time] = useState<any>(dayjs());

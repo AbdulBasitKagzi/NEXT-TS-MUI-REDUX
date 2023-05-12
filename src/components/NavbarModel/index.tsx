@@ -1,15 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
-// import { Link, useNavigate } from 'react-router-dom';
 import Link from "next/link";
-
 import { brandFilter, categoriesFilter } from "../../data/Constants";
 import { assets } from "../../assets";
 
 // mui imports
 import Box from "@mui/material/Box";
-
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { RootState } from "../../store/store";
@@ -220,25 +216,6 @@ const NavbarModel: React.FC<menuProps> = ({
           </Box>
         </Box>
       </Box>
-      {/* <Backdrop
-        sx={{
-          backgroundColor: "transparent",
-          height: { xl: "550px", md: "350px", xs: "550px" },
-          width: { md: "100%", xs: "90%" },
-          // width: "100%",
-          mt: "53px",
-          mx: "auto",
-          overflowX: "auto",
-        }}
-        open={openMobileModel || openModel}
-        onClick={() => {
-          setOpenMobileModel(false);
-          setOpenModel(false);
-        }}
-        onMouseEnter={() => {
-          openModel && setBackground("#FFFFFF");
-        }}
-      ></Backdrop> */}
     </>
   );
 };

@@ -16,7 +16,6 @@ const Layout: React.FC<layoutProps> = ({ children }) => {
         position: "relative",
         width: "100%",
         backdropFilter: openModel ? "blur(20px)" : "none",
-        // backgroundColor: "rgba(0,0,30,0.4)",
       }}
       onClick={() => {
         openModel && setOpenModel(false);

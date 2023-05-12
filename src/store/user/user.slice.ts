@@ -48,8 +48,8 @@ const userSlice = createSlice({
     builder.addCase(
       user_shipping_detail.fulfilled,
       (state, action: AnyAction) => {
-        console.log("full pay", action.payload.data.data.addShippingDetail);
-        state.userShippingDetail = action.payload.data.data.addShippingDetail;
+        console.log("full pay shipping", action.payload);
+        state.userShippingDetail = action.payload.data.data;
         state.error = false;
       }
     );

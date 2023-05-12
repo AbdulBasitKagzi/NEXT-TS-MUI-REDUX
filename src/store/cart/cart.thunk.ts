@@ -45,7 +45,7 @@ export const getUserCart = createAsyncThunk(
 export const increment_decrement_cartProduct = createAsyncThunk(
   "cart/increment_decrement_cartProduct",
   async (
-    body: { type: string; id: number; product_id: number },
+    body: { type?: string; id: number; product_id: number },
     { dispatch, rejectWithValue }
   ) => {
     try {

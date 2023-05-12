@@ -4,6 +4,7 @@ import {
   sizeFilter,
 } from "../../data/Constants";
 import { MouseEvent } from "react";
+import { filterQueryTypes } from "@/pages/product/product.types";
 
 // mui imports
 import Box from "@mui/material/Box";
@@ -16,7 +17,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Checkbox, FormControlLabel, FormGroup, Slider } from "@mui/material";
 import theme from "../../theme";
-import { filterQueryTypes } from "@/pages/product/product.types";
 
 type Anchor = "bottom";
 

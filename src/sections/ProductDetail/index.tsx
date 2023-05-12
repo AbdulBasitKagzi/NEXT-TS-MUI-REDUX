@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { assets } from "@/assets";
@@ -8,19 +8,19 @@ import { RootState } from "@/store/store";
 
 import { addColor, addSize } from "@/store/product/product.slice";
 import { addToCart } from "@/store/cart/cart.thunk";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+import { TabPanelProps } from "./prodcutDetail.types";
 
 interface productDetailProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   save?: string;
+  loading: boolean;
 }
 
-function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
+function ProductDetail({
+  setOpen,
+  save,
+  loading,
+}: productDetailProps): JSX.Element {
   const theme = useTheme();
   const { selectedProduct } = useSelector((state: RootState) => state.product);
 
@@ -455,6 +455,7 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
               background: theme.palette.primary.light,
             },
           }}
+          disabled={loading}
           onClick={() => {
             if (!save) {
               setOpen(true);
@@ -481,6 +482,7 @@ function ProductDetail({ setOpen, save }: productDetailProps): JSX.Element {
             textTransform: "capitalize",
             borderRadius: 0,
           }}
+          disabled={loading}
           onClick={() => {
             if (!save) {
               setOpen(true);
