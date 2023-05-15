@@ -21,8 +21,9 @@ import { productProps } from "@/store/product/product.types";
 interface dealsProps {
   bestDeals: productProps[];
   title: string;
+  showButton: boolean;
 }
-const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
+const Slider: React.FC<dealsProps> = ({ bestDeals, title, showButton }) => {
   const sliderRef = useRef<SwiperRef>(null);
 
   const handleNext = useCallback(() => {
@@ -52,7 +53,7 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
           Best {title}
         </Typography>
       </Box>
-      <Box sx={{ mx: 5, position: "relative" }}>
+      <Box sx={{ mx: 5, mt: { lg: 7, md: 5, xs: 0 }, position: "relative" }}>
         <Swiper
           ref={sliderRef}
           slidesPerView={4}
@@ -113,6 +114,7 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                               xs: "30px",
                             },
                             cursor: "pointer",
+                            width: "100%",
                           }}
                         >
                           {deals.productImages?.map((image, index: number) => {
@@ -186,14 +188,18 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                               {deals.productName}
                             </Typography>
                           </Box>
-                          <Box sx={{ textAlign: "left" }}>
+                          <Box
+                            sx={{
+                              textAlign: "left",
+                            }}
+                          >
                             <Typography
                               sx={{
                                 mr: 1,
                                 display: "inline-block",
                                 color: theme.palette.secondary.light,
                                 fontSize: {
-                                  lg: 25,
+                                  lg: 20,
                                   md: 18,
                                   sm: 12,
                                   xs: 9,
@@ -201,6 +207,7 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                                 fontWeight: 400,
                                 fontFamily: "Jost",
                                 textDecoration: "line-through",
+                                textAlign: "left",
                               }}
                             >
                               $ {deals.productOriginalPrice}
@@ -210,13 +217,14 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
                                 display: "inline-block",
                                 color: theme.palette.secondary.main,
                                 fontSize: {
-                                  lg: 25,
+                                  lg: 20,
                                   md: 18,
                                   sm: 12,
                                   xs: 9,
                                 },
                                 fontWeight: 400,
                                 fontFamily: "Jost",
+                                textAlign: "left",
                               }}
                             >
                               $ {deals.productCurrentPrice}
@@ -232,28 +240,32 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
           </Box>
         </Swiper>
 
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            sx={{
-              background: theme.palette.primary.dark,
-              width: {
-                xl: 256,
-                lg: 200,
-                md: 150,
-                xs: 100,
-                sm: 110,
-              },
-              height: { xl: 61, lg: 50, xs: 30 },
-              mt: { sm: 8, xs: 2 },
-              color: theme.palette.success.main,
-              borderRadius: 0,
-              textTransform: "capitalize",
-            }}
-          >
-            View All
-          </Button>
-        </Box>
+        {showButton && (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              variant="contained"
+              sx={{
+                background: theme.palette.primary.dark,
+                width: {
+                  xl: 256,
+                  lg: 200,
+                  md: 150,
+                  xs: 100,
+                  sm: 110,
+                },
+                height: { xl: 61, lg: 50, xs: 30 },
+                mt: { sm: 8, xs: 2 },
+                color: theme.palette.success.main,
+                borderRadius: 0,
+                textTransform: "capitalize",
+                fontFamily: "Jost",
+                fontSize: { lg: "20px", xs: "9px" },
+              }}
+            >
+              View All
+            </Button>
+          </Box>
+        )}
         <Box
           sx={{
             position: "absolute",
@@ -274,6 +286,7 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
             className={styles.icon}
             src={assets.icons.Left_Arrow_Icon}
             alt="previous"
+            style={{ cursor: "pointer" }}
           />
         </Box>
         <Box
@@ -290,6 +303,7 @@ const Slider: React.FC<dealsProps> = ({ bestDeals, title }) => {
             className={styles.icon}
             src={assets.icons.Right_Arrow_Icon}
             alt="right"
+            style={{ cursor: "pointer" }}
           />
         </Box>
       </Box>

@@ -41,7 +41,7 @@ body {
 .swiper-button-next::after {
   position: absolute;
   right: 171px;
-  color: "#FFFFFF" !important;
+  color: #ffffff !important;
 }
 
 .swiper-button-next {
@@ -52,6 +52,7 @@ body {
 .swiper-button-prev::after {
   position: absolute;
   left: 170px;
+  color: #ffffff !important;
 }
 .swiper-button-prev {
   top: var(--swiper-navigation-top-offset, 40%);

@@ -82,17 +82,17 @@ function UserPaymentInformation({
           let yy = value.substring(3);
 
           return +yy > year || (+yy == year && +mm >= +month);
-          // all good because the yy from expiryDate is greater than the current yy
-          // or if the yy from expiryDate is the same as the current yy but the mm
-          // from expiryDate is greater than the current mm
-          // return true;
         }),
       cvv: Yup.string()
         .min(3, "Enter 3 digit cvv number")
         .required("CVV number is required"),
     }),
     onSubmit: (values) => {
-      let data = { ...paymentInformation, ...values };
+      let data = {
+        ...paymentInformation,
+        ...values,
+        cardNumber: paymentInformation.cardNumber.replaceAll(" ", ""),
+      };
       setPaymentInformation((prev) => ({
         ...prev,
         ...values,
@@ -234,7 +234,7 @@ function UserPaymentInformation({
                 autoComplete="given-name"
                 variant="standard"
                 sx={{
-                  paddingBottom: 4,
+                  paddingBottom: 2,
                 }}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -261,7 +261,7 @@ function UserPaymentInformation({
                 variant="standard"
                 sx={{
                   width: "100%",
-                  paddingBottom: 4,
+                  paddingBottom: 2,
                 }}
                 displayType="input"
                 value={formik.values.cardNumber}
@@ -301,7 +301,7 @@ function UserPaymentInformation({
                 variant="standard"
                 sx={{
                   width: "100%",
-                  paddingBottom: 4,
+                  paddingBottom: 2,
                 }}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -335,7 +335,7 @@ function UserPaymentInformation({
                 variant="standard"
                 placeholder="123"
                 sx={{
-                  paddingBottom: 4,
+                  paddingBottom: 2,
                 }}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -389,6 +389,7 @@ function UserPaymentInformation({
                 height: "60px",
                 textTransform: "capitalize",
                 fontSize: { sm: "20px", xs: "16px" },
+                fontFamily: "Nunito",
               }}
               onClick={() => dispatch(decrementPage())}
             >
@@ -406,12 +407,10 @@ function UserPaymentInformation({
                 height: "60px",
                 textTransform: "capitalize",
                 fontSize: { md: "20px", sm: "14px", xs: "16px" },
-              }}
-              onClick={() => {
-                // handlePaymentValidation(paymentInformation);
+                fontFamily: "Nunito",
               }}
             >
-              Confirm Payment of: $ {total}
+              Confirm Payment of: ${total}
             </Button>
           </Box>
         </Box>

@@ -185,6 +185,10 @@ export default function DrawerAppBar({
                 mr: { sm: 0 },
                 zIndex: 5,
               }}
+              onMouseLeave={() => {
+                setBackground("transparent");
+                setOpenModel(false);
+              }}
             >
               <Box
                 className="class"
@@ -200,7 +204,6 @@ export default function DrawerAppBar({
                   gap: 4,
                   zIndex: 5,
                 }}
-                onMouseLeave={() => setBackground("transparent")}
               >
                 {gender.map((item) => (
                   <Link
@@ -228,8 +231,8 @@ export default function DrawerAppBar({
                         fontFamily: "Josefin Sans",
                         fontSize: "16px",
                         display: "inline-block",
-                        textDecoration:
-                          item.id === Number(value) ? "underline" : "none",
+                        // textDecoration:
+                        //   item.id === Number(value) ? "underline" : "none",
                         zIndex: 10,
                       }}
                       onClick={() => {
@@ -256,6 +259,11 @@ export default function DrawerAppBar({
                     >
                       {item.value}
                     </Typography>
+                    {item.id === Number(value) && (
+                      <Box
+                        sx={{ borderBottom: 2, borderColor: "black", mt: 1 }}
+                      ></Box>
+                    )}
                   </Link>
                 ))}
               </Box>

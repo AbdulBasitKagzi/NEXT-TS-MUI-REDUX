@@ -109,8 +109,8 @@ function ProductDetail({
             textAlign: "center",
             display: "flex",
             justifyContent: "center",
-            ml: { sm: 1, xs: 2 },
-            mt: { lg: 1, md: 2, sm: 1, xs: 2 },
+            ml: { md: "1px", sm: "16px", xs: 2 },
+            mt: { lg: 1, md: 1, sm: 1, xs: 1 },
           }}
         >
           <Typography
@@ -157,17 +157,17 @@ function ProductDetail({
           {selectedProduct?.productName}
         </Typography>
       </Box>
-      <Box sx={{ display: "flex", pt: 2, gap: 1 }}>
+      <Box sx={{ display: "flex", pt: 2, gap: 1, alignItems: "center" }}>
         {printStars(selectedProduct?.reviewRate)}
         {selectedProduct?.reviewRate &&
           printRemainingStars(5 - selectedProduct?.reviewRate)}
-
         <Typography
           sx={{
             fontFamily: "Inter",
             fontWeight: 400,
-            fontSize: "14px",
             color: theme.palette.primary.light,
+            ml: "3%",
+            fontSize: { md: "16px", xs: "12px" },
           }}
         >
           132 Reviews

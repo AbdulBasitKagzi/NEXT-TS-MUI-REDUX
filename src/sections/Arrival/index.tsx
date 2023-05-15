@@ -8,7 +8,7 @@ const Arrival: React.FC = () => {
   const theme = useTheme();
   return (
     <>
-      <Box sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ mt: { sm: 12, xs: 8 }, mb: 7 }}>
         <Typography
           variant="h3"
           sx={{

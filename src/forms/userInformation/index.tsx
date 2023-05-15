@@ -110,7 +110,7 @@ function UserInformation({
           <Typography
             variant="h6"
             gutterBottom
-            sx={{ display: "inline-block", color: "#4F4F4F" }}
+            sx={{ display: "inline-block", color: "#4F4F4F", fontWeight: 700 }}
           >
             Contact Information
           </Typography>
@@ -120,14 +120,15 @@ function UserInformation({
             <TextField
               id="firstName"
               name="firstName"
-              label="First name"
+              label="First Name"
               value={formik.values.firstName}
               fullWidth
               autoComplete="given-name"
               variant="standard"
               sx={{
-                paddingBottom: 4,
+                paddingBottom: 2,
               }}
+              placeholder="AbdulBasit"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -148,13 +149,14 @@ function UserInformation({
             <TextField
               id="lastName"
               name="lastName"
-              label="Last name"
+              label="Last Name"
               value={formik.values.lastName}
               fullWidth
               autoComplete="family-name"
               variant="standard"
+              placeholder="Kagzi"
               sx={{
-                paddingBottom: 4,
+                paddingBottom: 2,
               }}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -182,7 +184,7 @@ function UserInformation({
               autoComplete="shipping address-line1"
               variant="standard"
               sx={{
-                paddingBottom: 4,
+                paddingBottom: 2,
               }}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -219,7 +221,7 @@ function UserInformation({
               variant="standard"
               placeholder="+1-(0000 000 0000)"
               sx={{
-                paddingBottom: 4,
+                paddingBottom: 2,
               }}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -242,7 +244,7 @@ function UserInformation({
           <Typography
             variant="h6"
             gutterBottom
-            sx={{ display: "inline-block", color: "#4F4F4F" }}
+            sx={{ display: "inline-block", color: "#4F4F4F", fontWeight: 700 }}
           >
             Delivery Information
           </Typography>
@@ -328,7 +330,7 @@ function UserInformation({
               variant="standard"
               placeholder="Akshya Nagar 1st"
               sx={{
-                paddingBottom: 4,
+                paddingBottom: 2,
                 marginTop: 1,
               }}
               onChange={formik.handleChange}
@@ -371,7 +373,7 @@ function UserInformation({
               variant="standard"
               placeholder="000000"
               sx={{
-                paddingBottom: 4,
+                paddingBottom: 2,
                 marginTop: 1,
               }}
               onChange={formik.handleChange}
@@ -405,9 +407,9 @@ function UserInformation({
               mx: "auto",
               mt: { lg: 10, sm: 5 },
               textTransform: "capitalize",
-            }}
-            onClick={() => {
-              // handleUserValidation(userInformation);
+              fontFamily: "Nunito",
+              fontWeight: 700,
+              fontSize: { md: 20, sm: 16 },
             }}
           >
             Procedd to Payment

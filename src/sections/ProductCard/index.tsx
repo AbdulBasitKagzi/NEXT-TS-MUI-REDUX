@@ -68,7 +68,7 @@ function ProductCard(): JSX.Element {
                 Your Order
               </Typography>
             </Box>
-            <Divider />
+            <Divider sx={{ borderColor: "#EFE7EC" }} />
             {cartProducts.length ? (
               cartProducts.map(
                 (
@@ -87,7 +87,7 @@ function ProductCard(): JSX.Element {
                       <Typography
                         sx={{
                           fontFamily: "Inter",
-                          fontWeight: 800,
+                          fontWeight: 600,
                           fontSize: "18px",
                           color: theme.palette.info.main,
                           wordBreak: "break-all",
@@ -96,7 +96,7 @@ function ProductCard(): JSX.Element {
                         {product.productName}
                       </Typography>
                       <Box
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer", color: "#E15113" }}
                         onClick={() =>
                           dispatch(
                             increment_decrement_cartProduct({
@@ -140,13 +140,16 @@ function ProductCard(): JSX.Element {
                               <Box>
                                 <Typography
                                   sx={{
+                                    width: { sm: "80px", xs: "50px" },
                                     fontFamily: "Inter",
                                     fontSize: "14px",
                                     color: theme.palette.info.main,
                                     wordBreak: "break-all",
                                     textAlign: "left",
-
                                     pt: 1,
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
                                   }}
                                 >
                                   {desc}
@@ -194,6 +197,7 @@ function ProductCard(): JSX.Element {
                                 fontSize: "18px",
                                 color: theme.palette.secondary.contrastText,
                                 textAlign: "center",
+                                marginTop: "-1px",
                               }}
                             >
                               -
@@ -227,6 +231,7 @@ function ProductCard(): JSX.Element {
                                 fontSize: "18px",
                                 color: theme.palette.secondary.contrastText,
                                 textAlign: "center",
+                                marginTop: "-1px",
                               }}
                             >
                               +
@@ -246,20 +251,34 @@ function ProductCard(): JSX.Element {
                         mx: { md: 4, xs: 2 },
                       }}
                     >
-                      <Box sx={{ display: "flex", mt: 2, gap: 2 }}>
+                      <Box sx={{ display: "flex", mt: 1, gap: 2 }}>
                         {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
                         <Box sx={{ pl: { xl: 0, xs: 0 } }}>
-                          <Typography sx={{ color: theme.palette.info.main }}>
+                          <Typography
+                            sx={{
+                              color: theme.palette.info.main,
+                              fontWeight: 600,
+                            }}
+                          >
                             Size
                           </Typography>
                           <>
                             <Select
                               sx={{
                                 width: {
-                                  md: "100px",
-                                  sm: "70px",
+                                  md: "137px",
                                   xs: "70px",
                                 },
+                                ".MuiOutlinedInput-notchedOutline": {
+                                  borderWidth: "1px !important",
+                                  borderColor: "#EFE7EC !important",
+                                },
+                                ".Mui-focused .MuiOutlinedInput-notchedOutline":
+                                  {
+                                    borderColor: "#EFE7EC !important",
+                                  },
+                                color: "#616161",
+                                fontWeight: 600,
                               }}
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
@@ -286,11 +305,28 @@ function ProductCard(): JSX.Element {
                           </>
                         </Box>
                         <Box sx={{ pl: 0.5 }}>
-                          <Typography sx={{ color: theme.palette.info.main }}>
+                          <Typography
+                            sx={{
+                              color: theme.palette.info.main,
+                              fontWeight: 600,
+                            }}
+                          >
                             Color
                           </Typography>
                           <Select
-                            sx={{ width: { sm: "60px", xs: "50px" } }}
+                            sx={{
+                              width: { sm: "75px", xs: "70px" },
+                              ".MuiOutlinedInput-notchedOutline": {
+                                borderWidth: "1px !important",
+                                borderColor: "#EFE7EC !important",
+                              },
+
+                              ".Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "#EFE7EC !important",
+                              },
+                              color: "#616161",
+                              fontWeight: 600,
+                            }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={color}
@@ -348,7 +384,7 @@ function ProductCard(): JSX.Element {
                 {message}
               </Typography>
             )}
-            <Divider />
+            <Divider sx={{ borderColor: "#EFE7EC" }} />
             {cartProducts.length ? (
               <>
                 <Box
@@ -491,7 +527,7 @@ function ProductCard(): JSX.Element {
                     </Typography>
                   </Box>
                 </Box>
-                <Divider />
+                <Divider sx={{ borderColor: "#EFE7EC" }} />
                 <Box
                   sx={{
                     display: "flex",
@@ -511,8 +547,8 @@ function ProductCard(): JSX.Element {
                         // py: 2,
                         // pl: 5,
                         mx: { md: 4, xs: 2 },
-
-                        my: 2,
+                        mt: 2,
+                        mb: 4,
                         wordBreak: "break-all",
                       }}
                     >
@@ -529,11 +565,13 @@ function ProductCard(): JSX.Element {
                           xs: "20px",
                         },
                         color: theme.palette.info.main,
+                        mx: { md: 4, xs: 2 },
+                        mt: 2,
+                        mb: 4,
+
                         // py: 2,
                         // pr: { md: '16px', xs: '24px' },
-                        mx: { md: 4, xs: 2 },
 
-                        my: 2,
                         wordBreak: "break-all",
                       }}
                     >

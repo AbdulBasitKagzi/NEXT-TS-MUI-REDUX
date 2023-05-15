@@ -169,7 +169,11 @@ const FilterGrid: React.FC<filterGridProps> = ({
                       // height: "100%",
                       borderColor: "#E5E7EB",
                       width: {
-                        sm: filteredProducts.length === 1 ? "300px" : "100%",
+                        sm:
+                          filteredProducts.length === 1 ||
+                          filteredProducts.length === 2
+                            ? "300px"
+                            : "100%",
                         xs: "100%",
                       },
                       cursor: "pointer",

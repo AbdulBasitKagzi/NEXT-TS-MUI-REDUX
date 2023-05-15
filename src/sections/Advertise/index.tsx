@@ -40,7 +40,7 @@ function Advertise({
             justifyContent: "center",
             background: background,
             width: "100%",
-            mb: { xs: 1 },
+            mb: { xs: "10px" },
             mx: "auto",
           }}
         >
@@ -128,7 +128,7 @@ function Advertise({
                 height: { xl: 61, lg: 50, xs: 30 },
                 mt: { lg: 10, md: 5, xs: 3 },
                 mb: 2,
-                fontSize: { lg: "15px", xs: "9px" },
+                fontSize: { lg: "20px", xs: "9px" },
                 borderRadius: 0,
                 textTransform: "capitalize",
                 fontFamily: "Jost",
@@ -156,7 +156,7 @@ function Advertise({
             sx={{ bottom: 70, display: "flex", justifyContent: "center" }}
           >
             <Button variant="text">
-              <Typography color="#FFFFFF">
+              <Typography color="#FFFFFF" sx={{ textTransform: "capitalize" }}>
                 Outfit
                 <Image src={assets.images.arrowIcon} alt="arrow" width={15} />
               </Typography>

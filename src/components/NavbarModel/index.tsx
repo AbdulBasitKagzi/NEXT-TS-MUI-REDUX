@@ -108,6 +108,7 @@ const NavbarModel: React.FC<menuProps> = ({
                             cursor: "pointer",
                             "&:hover": {
                               textDecoration: "underline",
+                              color: "#1B2437",
                             },
                             color: theme.palette.secondary.dark,
                             display: "block",
@@ -152,6 +153,7 @@ const NavbarModel: React.FC<menuProps> = ({
                             cursor: "pointer",
                             "&:hover": {
                               textDecoration: "underline",
+                              color: "#1B2437",
                             },
                             color: theme.palette.secondary.dark,
                             display: "block",
@@ -189,6 +191,7 @@ const NavbarModel: React.FC<menuProps> = ({
                           cursor: "pointer",
                           "&:hover": {
                             textDecoration: "underline",
+                            color: "#1B2437",
                           },
                           color: theme.palette.secondary.dark,
                           display: "block",

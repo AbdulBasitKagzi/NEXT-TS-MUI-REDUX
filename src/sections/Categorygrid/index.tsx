@@ -20,9 +20,11 @@ function CategoryGrid() {
       }}
     >
       <Box
-        sx={{
-          mt: 1,
-        }}
+        sx={
+          {
+            // mt: 1,
+          }
+        }
       >
         <img
           src={assets.images.handBag.src}
@@ -31,9 +33,11 @@ function CategoryGrid() {
         />
       </Box>
       <Box
-        sx={{
-          mt: 1,
-        }}
+        sx={
+          {
+            // mt: 1,
+          }
+        }
       >
         <img
           src={assets.images.hats.src}
@@ -42,9 +46,11 @@ function CategoryGrid() {
         />
       </Box>
       <Box
-        sx={{
-          mt: 1,
-        }}
+        sx={
+          {
+            // mt: 1,
+          }
+        }
       >
         <img
           src={assets.images.heels.src}

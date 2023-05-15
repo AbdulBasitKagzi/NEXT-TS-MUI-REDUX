@@ -82,15 +82,16 @@ const ReviewCard: React.FC = () => {
               <Box
                 sx={{
                   position: "absolute",
+                  width: { lg: 304, md: 264, sm: 190 },
                   top: "370px",
                   background: "#FCFCFC",
-                  width: { lg: 304 },
                 }}
               >
                 <Box
                   sx={{
                     display: "flex",
                     flexWrap: "wrap",
+                    gap: { lg: 2, md: 0, sm: 1 },
                   }}
                 >
                   <img
@@ -167,6 +168,7 @@ const ReviewCard: React.FC = () => {
                   >
                     {arr.name}
                   </Typography>
+
                   <Typography
                     sx={{
                       display: "inline-block",

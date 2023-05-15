@@ -148,7 +148,7 @@ const CategorySlider: React.FC<categoryProps> = ({ bestDeals }) => {
                           <Typography
                             sx={{
                               fontSize: {
-                                lg: "25px",
+                                lg: "20px",
                                 md: "18px",
                                 sm: "16px",
                                 xs: "8px",
@@ -169,7 +169,7 @@ const CategorySlider: React.FC<categoryProps> = ({ bestDeals }) => {
                               mr: 1,
                               display: "inline-block",
                               fontSize: {
-                                lg: 25,
+                                lg: 20,
                                 md: 18,
                                 sm: 12,
                                 xs: 9,
@@ -187,7 +187,7 @@ const CategorySlider: React.FC<categoryProps> = ({ bestDeals }) => {
                               display: "inline-block",
                               color: theme.palette.primary.main,
                               fontSize: {
-                                lg: 25,
+                                lg: 20,
                                 md: 18,
                                 sm: 12,
                                 xs: 9,

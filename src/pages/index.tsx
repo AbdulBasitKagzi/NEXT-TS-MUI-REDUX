@@ -237,7 +237,11 @@ export default function Home() {
                     mt: 12,
                   }}
                 >
-                  <Slider title="Deals" bestDeals={ProductsList} />
+                  <Slider
+                    title="Deals"
+                    bestDeals={ProductsList}
+                    showButton={true}
+                  />
                 </Box>
 
                 <Advertise
@@ -298,7 +302,11 @@ export default function Home() {
                   <ImageGrid />
                 </Box>
                 <Box sx={{ mt: 12 }}>
-                  <Slider title="Seller" bestDeals={ProductsList} />
+                  <Slider
+                    title="Seller"
+                    bestDeals={ProductsList}
+                    showButton={false}
+                  />
                 </Box>
                 <Box
                   sx={{
@@ -307,6 +315,7 @@ export default function Home() {
                     justifyContent: "center",
                     alignContent: "center",
                     mx: "auto",
+                    mt: { lg: 12, xs: 5 },
                   }}
                 >
                   <ImageListComponent />

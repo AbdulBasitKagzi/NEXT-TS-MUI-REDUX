@@ -25,6 +25,7 @@ const ImageListComponent = (): JSX.Element => {
         }}
         variant="quilted"
         cols={4}
+        gap={0}
       >
         {Image_Lsit.map((item, index) => (
           <ImageListItem
